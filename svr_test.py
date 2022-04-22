@@ -273,7 +273,7 @@ def SVR_linear_sgdNoBatch(x, y, eps, w, c_val, learning_rate, iterations):
     for i in range(iterations):
         for j in range(l):
             b = B_vals(x[j], y[j], w, eps, c_val)
-            w = np.multiply((1 - learning_rate), w) + np.multiply(b, x[j])
+            w = np.multiply((1 - learning_rate), w) + (b * x[j])
             loss = e_loss(w, x[j], y[j], eps)
             print("The cost is:", SVR_cost(w, c_val, l, loss))
     return w
@@ -295,6 +295,13 @@ def test_classification(y, w, x, b):
     return c / num
 
 
+def mse(x,w,y):
+    pred = w.dot(x)
+    inside = y - pred
+    total = np.linalg.norm(inside) ** 2
+    return total/len(x)
+
+
 if __name__ == '__main__':
     currency = data()
     print(currency)
@@ -313,14 +320,21 @@ if __name__ == '__main__':
     e = 0.00001
     w_ = [-100, 100]
     w_0 = np.array(w_)
-    C = 0.1
-    LR = 1/len(X)
+    C = .1
+    LR = 0.00001
 
-    X_batch = np.array_split(X_vals,26)
+    X_batch = np.array_split(X_vals, 26)
     X_batch = np.array(X_batch)
-    Y_batch = np.array_split(Y_vals,26)
+    Y_batch = np.array_split(Y_vals, 26)
     Y_batch = np.array(Y_batch)
 
-    W = SVR_linear_sgd(X_batch, Y_batch, e, w_0, C, LR, 5000)
+    W = SVR_linear_sgdNoBatch(X_vals, Y_vals, e, w_0, C, LR, 1000)
     print(W)
+
+    X_vals = X_vals.reshape(1, -1)
+    W = W.reshape(-1, 1)
+    print("The mse:", mse(X_vals, W, Y_vals))
+
+    #W = SVR_linear_sgd(X_batch, Y_batch, e, w_0, C, LR, 5000)
+    #print(W)
 
