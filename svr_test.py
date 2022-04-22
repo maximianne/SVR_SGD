@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 
 
 def get_year_list(year):
@@ -295,11 +296,24 @@ def test_classification(y, w, x, b):
     return c / num
 
 
-def mse(x,w,y):
-    pred = w.dot(x)
+def each_data(x, w):
+    return x*w[0] + w[1]
+
+
+def rmse(x, w, y):
+    pred = []
+    for i in range(len(x)):
+        pred.append(each_data(x[i],w))
     inside = y - pred
     total = np.linalg.norm(inside) ** 2
-    return total/len(x)
+    return np.sqrt(total/len(x))
+
+
+def prediction(x, w):
+    pred = []
+    for i in range(len(x)):
+        pred.append(each_data(x[i], w))
+    return pred
 
 
 if __name__ == '__main__':
@@ -318,9 +332,9 @@ if __name__ == '__main__':
     Y_vals = np.array(Y)
 
     e = 0.00001
-    w_ = [-100, 100]
+    w_ = [10, 10]
     w_0 = np.array(w_)
-    C = .1
+    C = .00001
     LR = 0.00001
 
     X_batch = np.array_split(X_vals, 26)
@@ -328,13 +342,14 @@ if __name__ == '__main__':
     Y_batch = np.array_split(Y_vals, 26)
     Y_batch = np.array(Y_batch)
 
-    W = SVR_linear_sgdNoBatch(X_vals, Y_vals, e, w_0, C, LR, 1000)
+    W = SVR_linear_sgdNoBatch(X_vals, Y_vals, e, w_0, C, LR, 150)
     print(W)
 
     X_vals = X_vals.reshape(1, -1)
     W = W.reshape(-1, 1)
-    print("The mse:", mse(X_vals, W, Y_vals))
 
-    #W = SVR_linear_sgd(X_batch, Y_batch, e, w_0, C, LR, 5000)
-    #print(W)
+    rmse = rmse(X_vals, W, Y_vals)
+    print("The rmse:", rmse)
 
+    # W = SVR_linear_sgd(X_batch, Y_batch, e, w_0, C, LR, 5000)
+    # print(W)
