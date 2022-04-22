@@ -1,8 +1,10 @@
+# ------ libraries ------ #
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
 
+# ---- Functions ---- #
 def get_year_list(year):
     month = 1
     list = []
@@ -80,6 +82,7 @@ def data():
     data['DATE'] = pd.to_datetime(data['DATE'].str.strip(), format='%Y/%m/%d')
     data['DEXMXUS'].replace({".": "0"}, inplace=True)
     data['DEXMXUS'] = pd.to_numeric(data['DEXMXUS'], downcast="float")
+
     # ensures that the dates which the DEXMXUS val is 0 is
     # dropped to avoid the min getting messed up
     target = data[data['DEXMXUS'] > 0]
@@ -242,16 +245,16 @@ def B_vals(x, y, w, eps, c_val):
         return c_val
 
 
-def e_loss(w, x, y, e):
+def e_loss(w, x, y, eps):
     wT = w.reshape(-1, 1)
     xR = x.reshape(1, -1)
-    return np.max(np.linalg.norm(np.abs(np.dot(wT, xR)) - y) - e, 0)
+    return np.max(np.linalg.norm(np.abs(np.dot(wT, xR)) - y) - eps, 0)
 
 
 def SVR_cost(w, c, l, loss):
     w2 = w.reshape(1, -1)
     norm = np.linalg.norm(w2)
-    return .5*(norm*norm) + (c/l)*loss
+    return .5 * (norm * norm) + (c / l) * loss
 
 
 def SVR_linear_sgd(x, y, eps, w, c_val, learning_rate, iterations):
@@ -263,50 +266,23 @@ def SVR_linear_sgd(x, y, eps, w, c_val, learning_rate, iterations):
             for j in range(len(batchTempX)):
                 b = B_vals(batchTempX[j], batchTempY[j], w, eps, c_val)
                 w = np.multiply((1 - learning_rate), w) + (b * batchTempX[j])
-                loss = e_loss(w,batchTempX[j],batchTempY[j],eps)
+                loss = e_loss(w, batchTempX[j], batchTempY[j], eps)
                 l = len(batchTempX)
-                print("The cost is:",SVR_cost(w, c_val, l, loss))
+                print("The cost is:", SVR_cost(w, c_val, l, loss))
     return w
-
-
-def SVR_linear_sgdNoBatch(x, y, eps, w, c_val, learning_rate, iterations):
-    l = len(x)
-    for i in range(iterations):
-        for j in range(l):
-            b = B_vals(x[j], y[j], w, eps, c_val)
-            w = np.multiply((1 - learning_rate), w) + (b * x[j])
-            loss = e_loss(w, x[j], y[j], eps)
-            print("The cost is:", SVR_cost(w, c_val, l, loss))
-    return w
-
-
-def test_classification(y, w, x, b):
-    num = len(x)
-    c = 0
-    for i in range(0, num):
-        wT = w.reshape(-1, 1)
-        x_i = x[i].reshape(1, -1)
-        wx = np.linalg.norm(np.dot(wT, x_i))
-        wx_b = wx + b
-        check = y[i] * wx_b
-        if check >= 1:
-            c += 1
-        else:
-            c += 0
-    return c / num
 
 
 def each_data(x, w):
-    return x*w[0] + w[1]
+    return x * w[0] + w[1]
 
 
 def rmse(x, w, y):
     pred = []
     for i in range(len(x)):
-        pred.append(each_data(x[i],w))
+        pred.append(each_data(x[i], w))
     inside = y - pred
     total = np.linalg.norm(inside) ** 2
-    return np.sqrt(total/len(x))
+    return np.sqrt(total / len(x))
 
 
 def prediction(x, w):
@@ -316,25 +292,54 @@ def prediction(x, w):
     return pred
 
 
+def SVR_linear_sgdNoBatch(x, y, eps, w, c_val, learning_rate, iterations):
+    l = len(x)
+    previous_cost = None
+    previous_error = None
+    for i in range(iterations):
+        current_error = rmse(x, w, y)
+        if i > 1 and previous_error <= current_error:
+            break
+        for j in range(l):
+            b = B_vals(x[j], y[j], w, eps, c_val)
+            w = np.multiply((1 - learning_rate), w) + (b * x[j])
+            loss = e_loss(w, x[j], y[j], eps)
+            current_cost = SVR_cost(w, c_val, l, loss)
+            if i >1 and previous_cost <= current_cost:
+                break
+            previous_cost = current_cost
+            # print("The cost:", current_cost)
+        previous_error = current_error
+        # Error = rmse(x, w, y)
+        print("The Error:", current_error)
+    return w
+
+
 if __name__ == '__main__':
     currency = data()
-    print(currency)
 
     prediction_days = 12
     currency['Prediction'] = currency[['Average']].shift(-prediction_days)
 
     X = np.array(currency.drop(columns=['Month', 'Minimum', 'Maximum', 'Prediction']))
     X = X[:len(currency) - prediction_days]
-    X_val = np.array(X.T)
-    X_vals = X_val[0]
+    X_vals = np.array(X)
     Y = np.array(currency['Prediction'])
     Y = Y[:-prediction_days]
     Y_vals = np.array(Y)
 
+    '''
+    The best one: 
     e = 0.00001
-    w_ = [10, 10]
+    w_ = [80, 100]
     w_0 = np.array(w_)
     C = .00001
+    LR = 0.00001'''
+
+    e = 0.00001
+    w_ = [70, 100]
+    w_0 = np.array(w_)
+    C = .000001
     LR = 0.00001
 
     X_batch = np.array_split(X_vals, 26)
@@ -342,14 +347,32 @@ if __name__ == '__main__':
     Y_batch = np.array_split(Y_vals, 26)
     Y_batch = np.array(Y_batch)
 
-    W = SVR_linear_sgdNoBatch(X_vals, Y_vals, e, w_0, C, LR, 150)
+    W = SVR_linear_sgdNoBatch(X_vals, Y_vals, e, w_0, C, LR, 600)
     print(W)
 
     X_vals = X_vals.reshape(1, -1)
     W = W.reshape(-1, 1)
 
+    Y_vals = Y_vals.reshape(-1, 1)
+
     rmse = rmse(X_vals, W, Y_vals)
     print("The rmse:", rmse)
 
-    # W = SVR_linear_sgd(X_batch, Y_batch, e, w_0, C, LR, 5000)
-    # print(W)
+    Y_vals_pred = prediction(X_vals, W)
+
+    x_m= []
+    for i in range(25):
+        x_m.append(i)
+    x_M = np.array(x_m)
+
+    equation = x_M*W[0] + W[1]
+
+    plt.scatter(X_vals, Y_vals)
+    plt.plot(x_M, equation, label = "Regression", color = "red")
+    plt.legend()
+    plt.show()
+
+    plt.plot(Y_vals, label="Actual Values", color = "green")
+    plt.plot(Y_vals_pred[0], label="My Prediction", color = "blue")
+    plt.legend()
+    plt.show()
