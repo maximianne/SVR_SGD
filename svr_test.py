@@ -1,4 +1,5 @@
 # ------ libraries ------ #
+import random
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -117,36 +118,6 @@ def data():
     year_2020 = target[target['DATE'].dt.year == 2020]
     year_2021 = target[target['DATE'].dt.year == 2021]
 
-    # make average of months for each year by month
-    avg_1994 = avg_month(year_1994)
-    avg_1995 = avg_month(year_1995)
-    avg_1996 = avg_month(year_1996)
-    avg_1997 = avg_month(year_1997)
-    avg_1998 = avg_month(year_1998)
-    avg_1999 = avg_month(year_1999)
-    avg_2000 = avg_month(year_2000)
-    avg_2001 = avg_month(year_2001)
-    avg_2002 = avg_month(year_2002)
-    avg_2003 = avg_month(year_2003)
-    avg_2004 = avg_month(year_2004)
-    avg_2005 = avg_month(year_2005)
-    avg_2006 = avg_month(year_2006)
-    avg_2007 = avg_month(year_2007)
-    avg_2008 = avg_month(year_2008)
-    avg_2009 = avg_month(year_2009)
-    avg_2010 = avg_month(year_2010)
-    avg_2011 = avg_month(year_2011)
-    avg_2012 = avg_month(year_2012)
-    avg_2013 = avg_month(year_2013)
-    avg_2014 = avg_month(year_2014)
-    avg_2015 = avg_month(year_2015)
-    avg_2016 = avg_month(year_2016)
-    avg_2017 = avg_month(year_2017)
-    avg_2018 = avg_month(year_2018)
-    avg_2019 = avg_month(year_2019)
-    avg_2020 = avg_month(year_2020)
-    avg_2021 = avg_month(year_2021)
-
     # this is the average + min + max of that month
     avgMinMax_1994 = matrix_avg_min_max(year_1994)
     avgMinMax_1995 = matrix_avg_min_max(year_1995)
@@ -183,10 +154,6 @@ def data():
          avgMinMax_2006, avgMinMax_2007, avgMinMax_2008, avgMinMax_2009, avgMinMax_2010, avgMinMax_2011,
          avgMinMax_2012, avgMinMax_2013, avgMinMax_2014, avgMinMax_2015, avgMinMax_2016, avgMinMax_2017,
          avgMinMax_2018, avgMinMax_2019, avgMinMax_2020, avgMinMax_2021))
-
-    # convert to the same base year price
-    # avgMinMaxAll = basePrice(avgMinMaxAll)
-    # print(avgMinMaxAll)
 
     x = x_var(28)
     x = np.array(x)
@@ -259,16 +226,18 @@ def SVR_cost(w, c, l, loss):
 
 def SVR_linear_sgd(x, y, eps, w, c_val, learning_rate, iterations):
     batches = len(x)
+    c = list(zip(x, y))
+    random.shuffle(c)
+    x, y = zip(*c)
     for j in range(iterations):
         for i in range(batches):
             batchTempX = x[i]
             batchTempY = y[i]
+            current_error = rmse(batchTempX, w, batchTempY)
+            print("the rsme is:", current_error)
             for j in range(len(batchTempX)):
                 b = B_vals(batchTempX[j], batchTempY[j], w, eps, c_val)
                 w = np.multiply((1 - learning_rate), w) + (b * batchTempX[j])
-                loss = e_loss(w, batchTempX[j], batchTempY[j], eps)
-                l = len(batchTempX)
-                print("The cost is:", SVR_cost(w, c_val, l, loss))
     return w
 
 
@@ -296,6 +265,8 @@ def SVR_linear_sgdNoBatch(x, y, eps, w, c_val, learning_rate, iterations):
     l = len(x)
     previous_cost = None
     previous_error = None
+    count_iters = 0
+    reached = False
     for i in range(iterations):
         current_error = rmse(x, w, y)
         if i > 1 and previous_error <= current_error:
@@ -305,14 +276,69 @@ def SVR_linear_sgdNoBatch(x, y, eps, w, c_val, learning_rate, iterations):
             w = np.multiply((1 - learning_rate), w) + (b * x[j])
             loss = e_loss(w, x[j], y[j], eps)
             current_cost = SVR_cost(w, c_val, l, loss)
-            if i >1 and previous_cost <= current_cost:
+            if i > 1 and previous_cost <= current_cost:
                 break
             previous_cost = current_cost
-            # print("The cost:", current_cost)
         previous_error = current_error
-        # Error = rmse(x, w, y)
-        print("The Error:", current_error)
-    return w
+        # print("The Error:", current_error)
+        count_iters +=1
+    if(count_iters == iterations):
+        reached == True
+    return w, reached, current_error, current_cost
+
+
+def iterate_C_values(x, y, eps, w, start_c_val, learning_Rate, iters):
+    count = 0
+    rsme = []
+    cost = []
+    reached = []
+    W_vects = []
+    while start_c_val > .000000001:
+        print(start_c_val)
+        w, reach, CE, CC = SVR_linear_sgdNoBatch(x, y, eps, w, start_c_val, learning_Rate, iters)
+        rsme.append(CE)
+        cost.append(CC)
+        reached.append(reach)
+        W_vects.append(w)
+        start_c_val = start_c_val*.1
+        count += 1
+    return rsme, cost, reached, W_vects, count
+
+
+def iterate_LR_values(x, y, eps, w, start_c_val, learning_Rate, iters):
+    count = 0
+    rsme = []
+    cost = []
+    reached = []
+    W_vects = []
+    while learning_Rate > .0000000001:
+        print(learning_Rate)
+        w, reach, CE, CC = SVR_linear_sgdNoBatch(x, y, eps, w, start_c_val, learning_Rate, iters)
+        rsme.append(CE)
+        cost.append(CC)
+        reached.append(reach)
+        W_vects.append(w)
+        learning_Rate = learning_Rate*.1
+        count += 1
+    return rsme, cost, reached, W_vects, count
+
+
+def iterate_eps_values(x, y, eps, w, start_c_val, learning_Rate, iters):
+    count = 0
+    rsme = []
+    cost = []
+    reached = []
+    W_vects = []
+    while eps > .0000000001:
+        print(eps)
+        w, reach, CE, CC = SVR_linear_sgdNoBatch(x, y, eps, w, start_c_val, learning_Rate, iters)
+        rsme.append(CE)
+        cost.append(CC)
+        reached.append(reach)
+        W_vects.append(w)
+        eps = eps*.1
+        count += 1
+    return rsme, cost, reached, W_vects, count
 
 
 if __name__ == '__main__':
@@ -328,18 +354,10 @@ if __name__ == '__main__':
     Y = Y[:-prediction_days]
     Y_vals = np.array(Y)
 
-    '''
-    The best one: 
-    e = 0.00001
+    '''e = 0.00001
     w_ = [80, 100]
     w_0 = np.array(w_)
     C = .00001
-    LR = 0.00001'''
-
-    e = 0.00001
-    w_ = [70, 100]
-    w_0 = np.array(w_)
-    C = .000001
     LR = 0.00001
 
     X_batch = np.array_split(X_vals, 26)
@@ -348,6 +366,7 @@ if __name__ == '__main__':
     Y_batch = np.array(Y_batch)
 
     W = SVR_linear_sgdNoBatch(X_vals, Y_vals, e, w_0, C, LR, 600)
+    # W = SVR_linear_sgd(X_batch,Y_batch,e, w_0, C, LR, 600)
     print(W)
 
     X_vals = X_vals.reshape(1, -1)
@@ -360,19 +379,297 @@ if __name__ == '__main__':
 
     Y_vals_pred = prediction(X_vals, W)
 
-    x_m= []
+    x_m = []
     for i in range(25):
         x_m.append(i)
     x_M = np.array(x_m)
 
-    equation = x_M*W[0] + W[1]
+    equation = x_M * W[0] + W[1]
 
     plt.scatter(X_vals, Y_vals)
-    plt.plot(x_M, equation, label = "Regression", color = "red")
+    plt.plot(x_M, equation, label="Regression", color="red")
     plt.legend()
     plt.show()
 
-    plt.plot(Y_vals, label="Actual Values", color = "green")
-    plt.plot(Y_vals_pred[0], label="My Prediction", color = "blue")
+    plt.plot(Y_vals, label="Actual Values", color="green")
+    plt.plot(Y_vals_pred[0], label="My Prediction", color="blue")
     plt.legend()
     plt.show()
+
+    plt.title("RSME")
+    plt.plot(count, Y_vals, color="green")
+    plt.legend()
+    plt.show()'''
+
+    max_rsme= []
+    min_rsme= []
+
+    max_cost= []
+    min_cost = []
+
+    e = 0.00001
+    w_ = [80, 100]
+    w_0 = np.array(w_)
+    LR = 0.1
+    C = 10
+
+    error, cost, statement, support_vectors, number = iterate_C_values(X_vals, Y_vals, e, w_0, C, LR, 600)
+    print(error)
+    print(cost)
+    print(support_vectors)
+    print(number)
+
+    error_min = min(error)
+    min_rsme.append(error_min)
+
+    error_max = max(error)
+    max_rsme.append(error_max)
+
+    cost_min = min(cost)
+    min_cost.append(cost_min)
+
+    cost_max = max(cost)
+    max_cost.append(cost_max)
+
+    x_axis = []
+    for i in range(number):
+        x_axis.append(i)
+
+    plt.title("RSME - C val, Learning Rate= 0.1 ")
+    plt.plot(x_axis, error, color="green")
+    plt.show()
+
+    plt.title("Cost - C Val , Learning Rate= 0.1")
+    plt.plot(x_axis, cost, color="green")
+    plt.show()
+
+    # ----
+    e = 0.00001
+    w_ = [80, 100]
+    w_0 = np.array(w_)
+    LR = 0.01
+    C = 10
+
+    error, cost, statement, support_vectors, number = iterate_C_values(X_vals, Y_vals, e, w_0, C, LR, 600)
+    print(error)
+    print(cost)
+    print(support_vectors)
+    print(number)
+
+    error_min = min(error)
+    min_rsme.append(error_min)
+
+    error_max = max(error)
+    max_rsme.append(error_max)
+
+    cost_min = min(cost)
+    min_cost.append(cost_min)
+
+    cost_max = max(cost)
+    max_cost.append(cost_max)
+
+    x_axis = []
+    for i in range(number):
+        x_axis.append(i)
+
+    plt.title("RSME - C val, Learning Rate= 0.01 ")
+    plt.plot(x_axis, error, color="green")
+    plt.show()
+
+    plt.title("Cost - C Val , Learning Rate= 0.01")
+    plt.plot(x_axis, cost, color="green")
+    plt.show()
+
+    # ----
+    e = 0.00001
+    w_ = [80, 100]
+    w_0 = np.array(w_)
+    LR = 0.001
+    C = 10
+
+    error, cost, statement, support_vectors, number = iterate_C_values(X_vals, Y_vals, e, w_0, C, LR, 600)
+    print(error)
+    print(cost)
+    print(support_vectors)
+    print(number)
+
+    error_min = min(error)
+    min_rsme.append(error_min)
+
+    error_max = max(error)
+    max_rsme.append(error_max)
+
+    cost_min = min(cost)
+    min_cost.append(cost_min)
+
+    cost_max = max(cost)
+    max_cost.append(cost_max)
+
+    x_axis = []
+    for i in range(number):
+        x_axis.append(i)
+
+    plt.title("RSME - C val, Learning Rate= 0.001 ")
+    plt.plot(x_axis, error, color="green")
+    plt.show()
+
+    plt.title("Cost - C Val , Learning Rate= 0.001")
+    plt.plot(x_axis, cost, color="green")
+    plt.show()
+
+    # ----
+    e = 0.00001
+    w_ = [80, 100]
+    w_0 = np.array(w_)
+    LR = 0.0001
+    C = 10
+
+    error, cost, statement, support_vectors, number = iterate_C_values(X_vals, Y_vals, e, w_0, C, LR, 600)
+    print(error)
+    print(cost)
+    print(support_vectors)
+    print(number)
+
+    error_min = min(error)
+    min_rsme.append(error_min)
+
+    error_max = max(error)
+    max_rsme.append(error_max)
+
+    cost_min = min(cost)
+    min_cost.append(cost_min)
+
+    cost_max = max(cost)
+    max_cost.append(cost_max)
+
+    x_axis = []
+    for i in range(number):
+        x_axis.append(i)
+
+    plt.title("RSME - C val, Learning Rate= 0.0001 ")
+    plt.plot(x_axis, error, color="green")
+    plt.show()
+
+    plt.title("Cost - C Val , Learning Rate= 0.0001")
+    plt.plot(x_axis, cost, color="green")
+    plt.show()
+
+    # ----
+    e = 0.00001
+    w_ = [80, 100]
+    w_0 = np.array(w_)
+    LR = 0.00001
+    C = 10
+
+    error, cost, statement, support_vectors, number = iterate_C_values(X_vals, Y_vals, e, w_0, C, LR, 600)
+    print(error)
+    print(cost)
+    print(support_vectors)
+    print(number)
+
+    error_min = min(error)
+    min_rsme.append(error_min)
+
+    error_max = max(error)
+    max_rsme.append(error_max)
+
+    cost_min = min(cost)
+    min_cost.append(cost_min)
+
+    cost_max = max(cost)
+    max_cost.append(cost_max)
+
+    x_axis = []
+    for i in range(number):
+        x_axis.append(i)
+
+    plt.title("RSME - C val, Learning Rate= 0.00001 ")
+    plt.plot(x_axis, error, color="green")
+    plt.show()
+
+    plt.title("Cost - C Val , Learning Rate= 0.00001")
+    plt.plot(x_axis, cost, color="green")
+    plt.show()
+
+    # ----
+    e = 0.00001
+    w_ = [80, 100]
+    w_0 = np.array(w_)
+    LR = 0.000001
+    C = 10
+
+    error, cost, statement, support_vectors, number = iterate_C_values(X_vals, Y_vals, e, w_0, C, LR, 600)
+    print(error)
+    print(cost)
+    print(support_vectors)
+    print(number)
+
+    error_min = min(error)
+    min_rsme.append(error_min)
+
+    error_max = max(error)
+    max_rsme.append(error_max)
+
+    cost_min = min(cost)
+    min_cost.append(cost_min)
+
+    cost_max = max(cost)
+    max_cost.append(cost_max)
+
+    x_axis = []
+    for i in range(number):
+        x_axis.append(i)
+
+    plt.title("RSME - C val, Learning Rate= 0.000001 ")
+    plt.plot(x_axis, error, color="green")
+    plt.show()
+
+    plt.title("Cost - C Val , Learning Rate= 0.000001")
+    plt.plot(x_axis, cost, color="green")
+    plt.show()
+
+    print(cost_max)
+    x_axis = []
+    for i in range(len(cost_max)):
+        x_axis.append(i)
+
+    plt.title("Min and Max Values of RSME for different Learning Rates")
+    plt.plot(x_axis, min_rsme, color="green")
+    plt.plot(x_axis, max_rsme, color="red")
+    plt.legend()
+    plt.show()
+
+    plt.title("Min and Max Values of cost for different Learning Rates")
+    plt.plot(x_axis, min_cost, color="green")
+    plt.plot(x_axis, max_cost, color="red")
+    plt.legend()
+    plt.show()
+
+    '''e = 0.1
+    w_ = [80, 100]
+    w_0 = np.array(w_)
+    LR = 0.00001
+    C = 0.00001
+
+    error, cost, statement, support_vectors, number = iterate_eps_values(X_vals, Y_vals, e, w_0, C, LR, 600)
+    print(error)
+    print(cost)
+    print(support_vectors)
+    print(number)
+
+    x_axis = []
+    for i in range(number):
+        x_axis.append(i)
+
+    plt.title("RSME - eps")
+    plt.plot(x_axis, error, color="green")
+    plt.show()
+
+    plt.title("Cost - eps")
+    plt.plot(x_axis, cost, color="green")
+    plt.show()'''
+
+
+
+
+
