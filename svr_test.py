@@ -281,8 +281,8 @@ def SVR_linear_sgdNoBatch(x, y, eps, w, c_val, learning_rate, iterations):
             previous_cost = current_cost
         previous_error = current_error
         # print("The Error:", current_error)
-        count_iters +=1
-    if(count_iters == iterations):
+        count_iters += 1
+    if iterations == count_iters:
         reached == True
     return w, reached, current_error, current_cost
 
@@ -300,43 +300,7 @@ def iterate_C_values(x, y, eps, w, start_c_val, learning_Rate, iters):
         cost.append(CC)
         reached.append(reach)
         W_vects.append(w)
-        start_c_val = start_c_val*.1
-        count += 1
-    return rsme, cost, reached, W_vects, count
-
-
-def iterate_LR_values(x, y, eps, w, start_c_val, learning_Rate, iters):
-    count = 0
-    rsme = []
-    cost = []
-    reached = []
-    W_vects = []
-    while learning_Rate > .0000000001:
-        print(learning_Rate)
-        w, reach, CE, CC = SVR_linear_sgdNoBatch(x, y, eps, w, start_c_val, learning_Rate, iters)
-        rsme.append(CE)
-        cost.append(CC)
-        reached.append(reach)
-        W_vects.append(w)
-        learning_Rate = learning_Rate*.1
-        count += 1
-    return rsme, cost, reached, W_vects, count
-
-
-def iterate_eps_values(x, y, eps, w, start_c_val, learning_Rate, iters):
-    count = 0
-    rsme = []
-    cost = []
-    reached = []
-    W_vects = []
-    while eps > .0000000001:
-        print(eps)
-        w, reach, CE, CC = SVR_linear_sgdNoBatch(x, y, eps, w, start_c_val, learning_Rate, iters)
-        rsme.append(CE)
-        cost.append(CC)
-        reached.append(reach)
-        W_vects.append(w)
-        eps = eps*.1
+        start_c_val = start_c_val * .1
         count += 1
     return rsme, cost, reached, W_vects, count
 
@@ -401,164 +365,94 @@ if __name__ == '__main__':
     plt.legend()
     plt.show()'''
 
-    max_rsme = []
-    min_rsme = []
-
-    max_cost= []
-    min_cost = []
-
-    e = 0.00001
+    '''e = 0.00001
     w_ = [80, 100]
     w_0 = np.array(w_)
     LR = 0.1
-    C = 10
+    C = 1
 
     error1, cost1, statement1, support_vectors1, number1 = iterate_C_values(X_vals, Y_vals, e, w_0, C, LR, 600)
     print(error1)
     print(cost1)
     print(support_vectors1)
-    print(number1)
-
-    error_min = min(error1)
-    min_rsme.append(error_min)
-
-    error_max = max(error1)
-    max_rsme.append(error_max)
-
-    cost_min = min(cost1)
-    min_cost.append(cost_min)
-
-    cost_max = max(cost1)
-    max_cost.append(cost_max)
-
 
     # ----
-    e = 0.00001
-    w_ = [80, 100]
-    w_0 = np.array(w_)
     LR = 0.01
-    C = 10
+    C = 1
 
     error01, cost01, statement01, support_vectors01, number01 = iterate_C_values(X_vals, Y_vals, e, w_0, C, LR, 600)
     print(error01)
     print(cost01)
     print(support_vectors01)
-    print(number01)
-
-    error_min = min(error01)
-    min_rsme.append(error_min)
-
-    error_max = max(error01)
-    max_rsme.append(error_max)
-
-    cost_min = min(cost01)
-    min_cost.append(cost_min)
-
-    cost_max = max(cost01)
-    max_cost.append(cost_max)
 
     # ----
-    e = 0.00001
-    w_ = [80, 100]
-    w_0 = np.array(w_)
     LR = 0.001
-    C = 10
+    C = 1
 
-    error001, cost001, statement001, support_vectors001, number001 = iterate_C_values(X_vals, Y_vals, e, w_0, C, LR, 600)
+    error001, cost001, statement001, support_vectors001, number001 = iterate_C_values(X_vals, Y_vals, e, w_0, C, LR,
+                                                                                      600)
     print(error001)
     print(cost001)
     print(support_vectors001)
-    print(number001)
-
-    error_min = min(error001)
-    min_rsme.append(error_min)
-
-    error_max = max(error001)
-    max_rsme.append(error_max)
-
-    cost_min = min(cost001)
-    min_cost.append(cost_min)
-
-    cost_max = max(cost001)
-    max_cost.append(cost_max)
 
     # ----
-    e = 0.00001
-    w_ = [80, 100]
-    w_0 = np.array(w_)
     LR = 0.0001
-    C = 10
-
-    error0001, cost0001, statement0001, support_vectors0001, number0001 = iterate_C_values(X_vals, Y_vals, e, w_0, C, LR, 600)
+    C = 1
+    error0001, cost0001, statement0001, support_vectors0001, number0001 = iterate_C_values(X_vals, Y_vals, e, w_0, C,
+                                                                                           LR, 600)
     print(error0001)
     print(cost0001)
     print(support_vectors0001)
-    print(number0001)
 
-    error_min = min(error0001)
-    min_rsme.append(error_min)
-
-    error_max = max(error0001)
-    max_rsme.append(error_max)
-
-    cost_min = min(cost0001)
-    min_cost.append(cost_min)
-
-    cost_max = max(cost0001)
-    max_cost.append(cost_max)
-
-    e = 0.00001
-    w_ = [80, 100]
-    w_0 = np.array(w_)
+    # ----
     LR = 0.00001
-    C = 10
-
-    error00001, cost00001, statement00001, support_vectors00001, number00001 = iterate_C_values(X_vals, Y_vals, e, w_0, C, LR, 600)
+    C = 1
+    error00001, cost00001, statement00001, support_vectors00001, number00001 = iterate_C_values(X_vals, Y_vals, e, w_0,
+                                                                                                C, LR, 600)
     print(error00001)
     print(cost00001)
     print(support_vectors00001)
-    print(number00001)
 
-    error_min = min(error00001)
-    min_rsme.append(error_min)
+    # ----
+    LR = 0.000001
+    C = 1
+    error000001, cost000001, statement000001, support_vectors000001, number000001 = iterate_C_values(X_vals, Y_vals, e,
+                                                                                                     w_0, C, LR, 600)
+    print(error000001)
+    print(cost000001)
+    print(support_vectors000001)
 
-    error_max = max(error00001)
-    max_rsme.append(error_max)
-
-    cost_min = min(cost00001)
-    min_cost.append(cost_min)
-
-    cost_max = max(cost00001)
-    max_cost.append(cost_max)
-
+    # ----- Test ------ #
     x_axis = []
     for i in range(number00001):
         x_axis.append(i)
 
-    # ----
-    x_axis = []
-    for i in range(len(min_rsme)):
-        x_axis.append(i)
+    C_vals_array = ['1', '0.1', '0.01', '1.0e-3', '1.0e-4', '1.0e-5', '1.0e-6', '1.0e-7', '1.0e-8', '1.0e-9']
 
-    plt.title("Min Values of RSME for different Learning Rates")
-    plt.plot(x_axis, min_rsme, color="green", label = "Minimum")
+    plt.title("RSME - C val, Learning Rates")
+    plt.plot(x_axis, error000001, label="LR = 0.000001")
+    plt.plot(x_axis, error00001, label="LR = 0.00001")
+    plt.plot(x_axis, error0001, label="LR = 0.0001")
+    plt.plot(x_axis, error001, label="LR = 0.001")
+    plt.plot(x_axis, error01, label="LR = 0.01")
+    plt.plot(x_axis, error1, label="LR = 0.1")
+    plt.xticks(x_axis, C_vals_array)
+    plt.xlabel("C Value")
+    plt.ylabel("RSME Size")
     plt.legend()
     plt.show()
 
-    plt.title("Min Values of cost for different Learning Rates")
-    plt.plot(x_axis, min_cost, color="green", label = "Minimum")
+    plt.title("Cost - C Val , Learning Rate")
+    plt.plot(x_axis, cost000001, label="LR = 0.000001")
+    plt.plot(x_axis, cost00001, label="LR = 0.00001")
+    plt.plot(x_axis, cost0001, label="LR = 0.0001")
+    plt.plot(x_axis, cost001, label="LR = 0.001")
+    plt.plot(x_axis, cost01, label="LR = 0.01")
+    plt.plot(x_axis, cost1, label="LR = 0.1")
+    plt.xticks(x_axis, C_vals_array)
+    plt.xlabel("C Value")
+    plt.ylabel("Cost Size")
     plt.legend()
-    plt.show()
+    plt.show()'''
 
-    # ----- Test ------ #
-    x_axis = []
-    for i in range(number0001):
-        x_axis.append(i)
 
-    plt.title("RSME - C val, Learning Rate= 0.00001 ")
-    plt.plot(x_axis, error00001, color="green")
-    plt.show()
-
-    plt.title("Cost - C Val , Learning Rate= 0.00001")
-    plt.plot(x_axis, cost00001, color="green")
-    plt.show()
