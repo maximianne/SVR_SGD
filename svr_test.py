@@ -365,6 +365,7 @@ if __name__ == '__main__':
     plt.legend()
     plt.show()'''
 
+    # ---- Checking the ideal value of C and the Learning Rate ---- #
     '''e = 0.00001
     w_ = [80, 100]
     w_0 = np.array(w_)
@@ -422,7 +423,7 @@ if __name__ == '__main__':
     print(cost000001)
     print(support_vectors000001)
 
-    # ----- Test ------ #
+    # ----- Visual Representation ------ #
     x_axis = []
     for i in range(number00001):
         x_axis.append(i)
@@ -455,4 +456,453 @@ if __name__ == '__main__':
     plt.legend()
     plt.show()'''
 
+    e = 0.00001
+    w_ = [80, 100]
+    w_0 = np.array(w_)
+
+    # --- C = 0.0001 , LR = 0.01 --- #
+    LR = 0.01
+    C = 0.0001
+    W, state, error, cost = SVR_linear_sgdNoBatch(X_vals, Y_vals, e, w_0, C, LR, 600)
+    print(W)
+
+    error = format(error,".2f")
+    cost = format(cost, ".5f")
+
+    Y_vals_pred = prediction(X_vals, W)
+
+    x_m = []
+    for i in range(25):
+        x_m.append(i)
+    x_M = np.array(x_m)
+
+    equation = x_M * W[0] + W[1]
+    plt.scatter(X_vals, Y_vals)
+    plt.title(f'TRAINING MODEL: Currency Exchange, C: {C}, LR: {LR}')
+    plt.text(15, 5, f'RSME: {error}')
+    plt.text(15, 3, f'Cost: {cost}')
+    plt.plot(x_M, equation, label="Regression", color="red")
+    plt.ylabel("Today's value")
+    plt.xlabel("Previous Day value")
+    plt.legend()
+    plt.show()
+
+    plt.title(f'TRAINING MODEL: Currency Exchange, C: {C}, LR: {LR}')
+    plt.plot(Y_vals, label="Actual Values", color="green")
+    plt.plot(Y_vals_pred, label="My Model's Predicted Values", color="blue")
+    plt.text(200, 5, f'RSME: {error}')
+    plt.text(200, 3, f'Cost: {cost}')
+    plt.ylabel("1 USD/ MXN")
+    plt.xlabel("Monthly Values from 1993 - 2020")
+    plt.legend()
+    plt.show()
+
+    # --- C = 0.0001 , LR = 0.001 --- #
+    LR = 0.001
+    C = 0.0001
+    W, state, error, cost = SVR_linear_sgdNoBatch(X_vals, Y_vals, e, w_0, C, LR, 600)
+    print(W)
+
+    error = format(error, ".2f")
+    cost = format(cost, ".5f")
+
+    Y_vals_pred = prediction(X_vals, W)
+
+    x_m = []
+    for i in range(25):
+        x_m.append(i)
+    x_M = np.array(x_m)
+
+    equation = x_M * W[0] + W[1]
+    plt.scatter(X_vals, Y_vals)
+    plt.title(f'TRAINING MODEL: Currency Exchange, C: {C}, LR: {LR}')
+    plt.text(15, 5, f'RSME: {error}')
+    plt.text(15, 3, f'Cost: {cost}')
+    plt.plot(x_M, equation, label="Regression", color="red")
+    plt.ylabel("Today's value")
+    plt.xlabel("Previous Day value")
+    plt.legend()
+    plt.show()
+
+    plt.title(f'TRAINING MODEL: Currency Exchange, C: {C}, LR: {LR}')
+    plt.plot(Y_vals, label="Actual Values", color="green")
+    plt.plot(Y_vals_pred, label="My Model's Predicted Values", color="blue")
+    plt.text(200, 4, f'RSME: {error}')
+    plt.text(200, 2, f'Cost: {cost}')
+    plt.ylabel("1 USD/ MXN")
+    plt.xlabel("Monthly Values from 1993 - 2020")
+    plt.legend()
+    plt.show()
+
+# --- C = 0.0001 , LR = 0.0001 --- #
+    LR = 0.0001
+    C = 0.0001
+    W, state, error, cost = SVR_linear_sgdNoBatch(X_vals, Y_vals, e, w_0, C, LR, 600)
+    print(W)
+
+    error = format(error,".2f")
+    cost = format(cost, ".5f")
+
+    Y_vals_pred = prediction(X_vals, W)
+
+    x_m = []
+    for i in range(25):
+        x_m.append(i)
+    x_M = np.array(x_m)
+
+    equation = x_M * W[0] + W[1]
+    plt.scatter(X_vals, Y_vals)
+    plt.title(f'TRAINING MODEL: Currency Exchange, C: {C}, LR: {LR}')
+    plt.text(15, 10, f'RSME: {error}')
+    plt.text(15, 8, f'Cost: {cost}')
+    plt.plot(x_M, equation, label="Regression", color="red")
+    plt.ylabel("Today's value")
+    plt.xlabel("Previous Day value")
+    plt.legend()
+    plt.show()
+
+    plt.title(f'TRAINING MODEL: Currency Exchange, C: {C}, LR: {LR}')
+    plt.plot(Y_vals, label="Actual Values", color="green")
+    plt.plot(Y_vals_pred, label="My Model's Predicted Values", color="blue")
+    plt.text(200, 5, f'RSME: {error}')
+    plt.text(200, 3, f'Cost: {cost}')
+    plt.ylabel("1 USD/ MXN")
+    plt.xlabel("Monthly Values from 1993 - 2020")
+    plt.legend()
+    plt.show()
+
+    # --- C = 0.0001 , LR = 0.00001 --- #
+    LR = 0.00001
+    C = 0.0001
+    W, state, error, cost = SVR_linear_sgdNoBatch(X_vals, Y_vals, e, w_0, C, LR, 600)
+    print(W)
+
+    error = format(error, ".2f")
+    cost = format(cost, ".5f")
+
+    Y_vals_pred = prediction(X_vals, W)
+
+    x_m = []
+    for i in range(25):
+        x_m.append(i)
+    x_M = np.array(x_m)
+
+    equation = x_M * W[0] + W[1]
+    plt.scatter(X_vals, Y_vals)
+    plt.title(f'TRAINING MODEL: Currency Exchange, C: {C}, LR: {LR}')
+    plt.text(16, 15, f'RSME: {error}')
+    plt.text(16, 13, f'Cost: {cost}')
+    plt.plot(x_M, equation, label="Regression", color="red")
+    plt.ylabel("Today's value")
+    plt.xlabel("Previous Day value")
+    plt.legend()
+    plt.show()
+
+    plt.title(f'TRAINING MODEL: Currency Exchange, C: {C}, LR: {LR}')
+    plt.plot(Y_vals, label="Actual Values", color="green")
+    plt.plot(Y_vals_pred, label="My Model's Predicted Values", color="blue")
+    plt.text(255, 12.5, f'RSME: {error}')
+    plt.text(255, 10.5, f'Cost: {cost}')
+    plt.ylabel("1 USD/ MXN")
+    plt.xlabel("Monthly Values from 1993 - 2020")
+    plt.legend()
+    plt.show()
+
+    # ================================#
+    # --- C = 0.00001 , LR = 0.01 --- #
+    LR = 0.01
+    C = 0.00001
+    W, state, error, cost = SVR_linear_sgdNoBatch(X_vals, Y_vals, e, w_0, C, LR, 600)
+    print(W)
+
+    error = format(error, ".2f")
+    cost = format(cost, ".5f")
+
+    Y_vals_pred = prediction(X_vals, W)
+
+    x_m = []
+    for i in range(25):
+        x_m.append(i)
+    x_M = np.array(x_m)
+
+    equation = x_M * W[0] + W[1]
+    plt.scatter(X_vals, Y_vals)
+    plt.title(f'TRAINING MODEL: Currency Exchange, C: {C}, LR: {LR}')
+    plt.text(15, 5, f'RSME: {error}')
+    plt.text(15, 3, f'Cost: {cost}')
+    plt.plot(x_M, equation, label="Regression", color="red")
+    plt.ylabel("Today's value")
+    plt.xlabel("Previous Day value")
+    plt.legend()
+    plt.show()
+
+    plt.title(f'TRAINING MODEL: Currency Exchange, C: {C}, LR: {LR}')
+    plt.plot(Y_vals, label="Actual Values", color="green")
+    plt.plot(Y_vals_pred, label="My Model's Predicted Values", color="blue")
+    plt.text(200, 5, f'RSME: {error}')
+    plt.text(200, 3, f'Cost: {cost}')
+    plt.ylabel("1 USD/ MXN")
+    plt.xlabel("Monthly Values from 1993 - 2020")
+    plt.legend()
+    plt.show()
+
+    # --- C = 0.00001 , LR = 0.001 --- #
+    LR = 0.001
+    C = 0.00001
+    W, state, error, cost = SVR_linear_sgdNoBatch(X_vals, Y_vals, e, w_0, C, LR, 600)
+    print(W)
+
+    error = format(error, ".2f")
+    cost = format(cost, ".5f")
+
+    Y_vals_pred = prediction(X_vals, W)
+
+    x_m = []
+    for i in range(25):
+        x_m.append(i)
+    x_M = np.array(x_m)
+
+    equation = x_M * W[0] + W[1]
+    plt.scatter(X_vals, Y_vals)
+    plt.title(f'TRAINING MODEL: Currency Exchange, C: {C}, LR: {LR}')
+    plt.text(15, 5, f'RSME: {error}')
+    plt.text(15, 3, f'Cost: {cost}')
+    plt.plot(x_M, equation, label="Regression", color="red")
+    plt.ylabel("Today's value")
+    plt.xlabel("Previous Day value")
+    plt.legend()
+    plt.show()
+
+    plt.title(f'TRAINING MODEL: Currency Exchange, C: {C}, LR: {LR}')
+    plt.plot(Y_vals, label="Actual Values", color="green")
+    plt.plot(Y_vals_pred, label="My Model's Predicted Values", color="blue")
+    plt.text(200, 5, f'RSME: {error}')
+    plt.text(200, 3, f'Cost: {cost}')
+    plt.ylabel("1 USD/ MXN")
+    plt.xlabel("Monthly Values from 1993 - 2020")
+    plt.legend()
+    plt.show()
+
+    # --- C = 0.00001 , LR = 0.0001 --- #
+    LR = 0.0001
+    C = 0.00001
+    W, state, error, cost = SVR_linear_sgdNoBatch(X_vals, Y_vals, e, w_0, C, LR, 600)
+    print(W)
+
+    error = format(error, ".2f")
+    cost = format(cost, ".5f")
+
+    Y_vals_pred = prediction(X_vals, W)
+
+    x_m = []
+    for i in range(25):
+        x_m.append(i)
+    x_M = np.array(x_m)
+
+    equation = x_M * W[0] + W[1]
+    plt.scatter(X_vals, Y_vals)
+    plt.title(f'TRAINING MODEL: Currency Exchange, C: {C}, LR: {LR}')
+    plt.text(15, 10, f'RSME: {error}')
+    plt.text(15, 8, f'Cost: {cost}')
+    plt.plot(x_M, equation, label="Regression", color="red")
+    plt.ylabel("Today's value")
+    plt.xlabel("Previous Day value")
+    plt.legend()
+    plt.show()
+
+    plt.title(f'TRAINING MODEL: Currency Exchange, C: {C}, LR: {LR}')
+    plt.plot(Y_vals, label="Actual Values", color="green")
+    plt.plot(Y_vals_pred, label="My Model's Predicted Values", color="blue")
+    plt.text(200, 7.5, f'RSME: {error}')
+    plt.text(200, 5.5, f'Cost: {cost}')
+    plt.ylabel("1 USD/ MXN")
+    plt.xlabel("Monthly Values from 1993 - 2020")
+    plt.legend()
+    plt.show()
+
+    # --- C = 0.00001 , LR = 0.00001 --- #
+    LR = 0.00001
+    C = 0.00001
+    W, state, error, cost = SVR_linear_sgdNoBatch(X_vals, Y_vals, e, w_0, C, LR, 600)
+    print(W)
+
+    error = format(error, ".2f")
+    cost = format(cost, ".5f")
+
+    Y_vals_pred = prediction(X_vals, W)
+
+    x_m = []
+    for i in range(25):
+        x_m.append(i)
+    x_M = np.array(x_m)
+
+    equation = x_M * W[0] + W[1]
+    plt.scatter(X_vals, Y_vals)
+    plt.title(f'TRAINING MODEL: Currency Exchange, C: {C}, LR: {LR}')
+    plt.text(15, 10, f'RSME: {error}')
+    plt.text(15, 8, f'Cost: {cost}')
+    plt.plot(x_M, equation, label="Regression", color="red")
+    plt.ylabel("Today's value")
+    plt.xlabel("Previous Day value")
+    plt.legend()
+    plt.show()
+
+    plt.title(f'TRAINING MODEL: Currency Exchange, C: {C}, LR: {LR}')
+    plt.plot(Y_vals, label="Actual Values", color="green")
+    plt.plot(Y_vals_pred, label="My Model's Predicted Values", color="blue")
+    plt.text(200, 10, f'RSME: {error}')
+    plt.text(200, 8, f'Cost: {cost}')
+    plt.ylabel("1 USD/ MXN")
+    plt.xlabel("Monthly Values from 1993 - 2020")
+    plt.legend()
+    plt.show()
+
+    # ================================#
+    # --- C = 0.000001 , LR = 0.01 --- #
+    LR = 0.01
+    C = 0.000001
+    W, state, error, cost = SVR_linear_sgdNoBatch(X_vals, Y_vals, e, w_0, C, LR, 600)
+    print(W)
+
+    error = format(error, ".2f")
+    cost = format(cost, ".5f")
+
+    Y_vals_pred = prediction(X_vals, W)
+
+    x_m = []
+    for i in range(25):
+        x_m.append(i)
+    x_M = np.array(x_m)
+
+    equation = x_M * W[0] + W[1]
+    plt.scatter(X_vals, Y_vals)
+    plt.title(f'TRAINING MODEL: Currency Exchange, C: {C}, LR: {LR}')
+    plt.text(15, 5, f'RSME: {error}')
+    plt.text(15, 3, f'Cost: {cost}')
+    plt.plot(x_M, equation, label="Regression", color="red")
+    plt.ylabel("Today's value")
+    plt.xlabel("Previous Day value")
+    plt.legend()
+    plt.show()
+
+    plt.title(f'TRAINING MODEL: Currency Exchange, C: {C}, LR: {LR}')
+    plt.plot(Y_vals, label="Actual Values", color="green")
+    plt.plot(Y_vals_pred, label="My Model's Predicted Values", color="blue")
+    plt.text(200, 5, f'RSME: {error}')
+    plt.text(200, 3, f'Cost: {cost}')
+    plt.ylabel("1 USD/ MXN")
+    plt.xlabel("Monthly Values from 1993 - 2020")
+    plt.legend()
+    plt.show()
+
+    # --- C = 0.000001 , LR = 0.001 --- #
+    LR = 0.001
+    C = 0.000001
+    W, state, error, cost = SVR_linear_sgdNoBatch(X_vals, Y_vals, e, w_0, C, LR, 600)
+    print(W)
+
+    error = format(error, ".2f")
+    cost = format(cost, ".5f")
+
+    Y_vals_pred = prediction(X_vals, W)
+
+    x_m = []
+    for i in range(25):
+        x_m.append(i)
+    x_M = np.array(x_m)
+
+    equation = x_M * W[0] + W[1]
+    plt.scatter(X_vals, Y_vals)
+    plt.title(f'TRAINING MODEL: Currency Exchange, C: {C}, LR: {LR}')
+    plt.text(15, 5, f'RSME: {error}')
+    plt.text(15, 3, f'Cost: {cost}')
+    plt.plot(x_M, equation, label="Regression", color="red")
+    plt.ylabel("Today's value")
+    plt.xlabel("Previous Day value")
+    plt.legend()
+    plt.show()
+
+    plt.title(f'TRAINING MODEL: Currency Exchange, C: {C}, LR: {LR}')
+    plt.plot(Y_vals, label="Actual Values", color="green")
+    plt.plot(Y_vals_pred, label="My Model's Predicted Values", color="blue")
+    plt.text(200, 5, f'RSME: {error}')
+    plt.text(200, 3, f'Cost: {cost}')
+    plt.ylabel("1 USD/ MXN")
+    plt.xlabel("Monthly Values from 1993 - 2020")
+    plt.legend()
+    plt.show()
+
+    # --- C = 0.000001 , LR = 0.0001 --- #
+    LR = 0.0001
+    C = 0.000001
+    W, state, error, cost = SVR_linear_sgdNoBatch(X_vals, Y_vals, e, w_0, C, LR, 600)
+    print(W)
+
+    error = format(error, ".2f")
+    cost = format(cost, ".5f")
+
+    Y_vals_pred = prediction(X_vals, W)
+
+    x_m = []
+    for i in range(25):
+        x_m.append(i)
+    x_M = np.array(x_m)
+
+    equation = x_M * W[0] + W[1]
+    plt.scatter(X_vals, Y_vals)
+    plt.title(f'TRAINING MODEL: Currency Exchange, C: {C}, LR: {LR}')
+    plt.text(15, 10, f'RSME: {error}')
+    plt.text(15, 8, f'Cost: {cost}')
+    plt.plot(x_M, equation, label="Regression", color="red")
+    plt.ylabel("Today's value")
+    plt.xlabel("Previous Day value")
+    plt.legend()
+    plt.show()
+
+    plt.title(f'TRAINING MODEL: Currency Exchange, C: {C}, LR: {LR}')
+    plt.plot(Y_vals, label="Actual Values", color="green")
+    plt.plot(Y_vals_pred, label="My Model's Predicted Values", color="blue")
+    plt.text(200, 8, f'RSME: {error}')
+    plt.text(200, 6, f'Cost: {cost}')
+    plt.ylabel("1 USD/ MXN")
+    plt.xlabel("Monthly Values from 1993 - 2020")
+    plt.legend()
+    plt.show()
+
+    # --- C = 0.000001 , LR = 0.00001 --- #
+    LR = 0.00001
+    C = 0.000001
+    W, state, error, cost = SVR_linear_sgdNoBatch(X_vals, Y_vals, e, w_0, C, LR, 600)
+    print(W)
+
+    error = format(error, ".2f")
+    cost = format(cost, ".5f")
+
+    Y_vals_pred = prediction(X_vals, W)
+
+    x_m = []
+    for i in range(25):
+        x_m.append(i)
+    x_M = np.array(x_m)
+
+    equation = x_M * W[0] + W[1]
+    plt.scatter(X_vals, Y_vals)
+    plt.title(f'TRAINING MODEL: Currency Exchange, C: {C}, LR: {LR}')
+    plt.text(15, 100, f'RSME: {error}')
+    plt.text(15, 97, f'Cost: {cost}')
+    plt.plot(x_M, equation, label="Regression", color="red")
+    plt.ylabel("Today's value")
+    plt.xlabel("Previous Day value")
+    plt.legend()
+    plt.show()
+
+    plt.title(f'TRAINING MODEL: Currency Exchange, C: {C}, LR: {LR}')
+    plt.plot(Y_vals, label="Actual Values", color="green")
+    plt.plot(Y_vals_pred, label="My Model's Predicted Values", color="blue")
+    plt.text(200, 100, f'RSME: {error}')
+    plt.text(200, 97, f'Cost: {cost}')
+    plt.ylabel("1 USD/ MXN")
+    plt.xlabel("Monthly Values from 1993 - 2020")
+    plt.legend()
+    plt.show()
 
