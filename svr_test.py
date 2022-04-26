@@ -401,8 +401,8 @@ if __name__ == '__main__':
     plt.legend()
     plt.show()'''
 
-    max_rsme= []
-    min_rsme= []
+    max_rsme = []
+    min_rsme = []
 
     max_cost= []
     min_cost = []
@@ -413,35 +413,24 @@ if __name__ == '__main__':
     LR = 0.1
     C = 10
 
-    error, cost, statement, support_vectors, number = iterate_C_values(X_vals, Y_vals, e, w_0, C, LR, 600)
-    print(error)
-    print(cost)
-    print(support_vectors)
-    print(number)
+    error1, cost1, statement1, support_vectors1, number1 = iterate_C_values(X_vals, Y_vals, e, w_0, C, LR, 600)
+    print(error1)
+    print(cost1)
+    print(support_vectors1)
+    print(number1)
 
-    error_min = min(error)
+    error_min = min(error1)
     min_rsme.append(error_min)
 
-    error_max = max(error)
+    error_max = max(error1)
     max_rsme.append(error_max)
 
-    cost_min = min(cost)
+    cost_min = min(cost1)
     min_cost.append(cost_min)
 
-    cost_max = max(cost)
+    cost_max = max(cost1)
     max_cost.append(cost_max)
 
-    x_axis = []
-    for i in range(number):
-        x_axis.append(i)
-
-    plt.title("RSME - C val, Learning Rate= 0.1 ")
-    plt.plot(x_axis, error, color="green")
-    plt.show()
-
-    plt.title("Cost - C Val , Learning Rate= 0.1")
-    plt.plot(x_axis, cost, color="green")
-    plt.show()
 
     # ----
     e = 0.00001
@@ -450,35 +439,23 @@ if __name__ == '__main__':
     LR = 0.01
     C = 10
 
-    error, cost, statement, support_vectors, number = iterate_C_values(X_vals, Y_vals, e, w_0, C, LR, 600)
-    print(error)
-    print(cost)
-    print(support_vectors)
-    print(number)
+    error01, cost01, statement01, support_vectors01, number01 = iterate_C_values(X_vals, Y_vals, e, w_0, C, LR, 600)
+    print(error01)
+    print(cost01)
+    print(support_vectors01)
+    print(number01)
 
-    error_min = min(error)
+    error_min = min(error01)
     min_rsme.append(error_min)
 
-    error_max = max(error)
+    error_max = max(error01)
     max_rsme.append(error_max)
 
-    cost_min = min(cost)
+    cost_min = min(cost01)
     min_cost.append(cost_min)
 
-    cost_max = max(cost)
+    cost_max = max(cost01)
     max_cost.append(cost_max)
-
-    x_axis = []
-    for i in range(number):
-        x_axis.append(i)
-
-    plt.title("RSME - C val, Learning Rate= 0.01 ")
-    plt.plot(x_axis, error, color="green")
-    plt.show()
-
-    plt.title("Cost - C Val , Learning Rate= 0.01")
-    plt.plot(x_axis, cost, color="green")
-    plt.show()
 
     # ----
     e = 0.00001
@@ -487,35 +464,23 @@ if __name__ == '__main__':
     LR = 0.001
     C = 10
 
-    error, cost, statement, support_vectors, number = iterate_C_values(X_vals, Y_vals, e, w_0, C, LR, 600)
-    print(error)
-    print(cost)
-    print(support_vectors)
-    print(number)
+    error001, cost001, statement001, support_vectors001, number001 = iterate_C_values(X_vals, Y_vals, e, w_0, C, LR, 600)
+    print(error001)
+    print(cost001)
+    print(support_vectors001)
+    print(number001)
 
-    error_min = min(error)
+    error_min = min(error001)
     min_rsme.append(error_min)
 
-    error_max = max(error)
+    error_max = max(error001)
     max_rsme.append(error_max)
 
-    cost_min = min(cost)
+    cost_min = min(cost001)
     min_cost.append(cost_min)
 
-    cost_max = max(cost)
+    cost_max = max(cost001)
     max_cost.append(cost_max)
-
-    x_axis = []
-    for i in range(number):
-        x_axis.append(i)
-
-    plt.title("RSME - C val, Learning Rate= 0.001 ")
-    plt.plot(x_axis, error, color="green")
-    plt.show()
-
-    plt.title("Cost - C Val , Learning Rate= 0.001")
-    plt.plot(x_axis, cost, color="green")
-    plt.show()
 
     # ----
     e = 0.00001
@@ -524,152 +489,76 @@ if __name__ == '__main__':
     LR = 0.0001
     C = 10
 
-    error, cost, statement, support_vectors, number = iterate_C_values(X_vals, Y_vals, e, w_0, C, LR, 600)
-    print(error)
-    print(cost)
-    print(support_vectors)
-    print(number)
+    error0001, cost0001, statement0001, support_vectors0001, number0001 = iterate_C_values(X_vals, Y_vals, e, w_0, C, LR, 600)
+    print(error0001)
+    print(cost0001)
+    print(support_vectors0001)
+    print(number0001)
 
-    error_min = min(error)
+    error_min = min(error0001)
     min_rsme.append(error_min)
 
-    error_max = max(error)
+    error_max = max(error0001)
     max_rsme.append(error_max)
 
-    cost_min = min(cost)
+    cost_min = min(cost0001)
     min_cost.append(cost_min)
 
-    cost_max = max(cost)
+    cost_max = max(cost0001)
     max_cost.append(cost_max)
 
-    x_axis = []
-    for i in range(number):
-        x_axis.append(i)
-
-    plt.title("RSME - C val, Learning Rate= 0.0001 ")
-    plt.plot(x_axis, error, color="green")
-    plt.show()
-
-    plt.title("Cost - C Val , Learning Rate= 0.0001")
-    plt.plot(x_axis, cost, color="green")
-    plt.show()
-
-    # ----
     e = 0.00001
     w_ = [80, 100]
     w_0 = np.array(w_)
     LR = 0.00001
     C = 10
 
-    error, cost, statement, support_vectors, number = iterate_C_values(X_vals, Y_vals, e, w_0, C, LR, 600)
-    print(error)
-    print(cost)
-    print(support_vectors)
-    print(number)
+    error00001, cost00001, statement00001, support_vectors00001, number00001 = iterate_C_values(X_vals, Y_vals, e, w_0, C, LR, 600)
+    print(error00001)
+    print(cost00001)
+    print(support_vectors00001)
+    print(number00001)
 
-    error_min = min(error)
+    error_min = min(error00001)
     min_rsme.append(error_min)
 
-    error_max = max(error)
+    error_max = max(error00001)
     max_rsme.append(error_max)
 
-    cost_min = min(cost)
+    cost_min = min(cost00001)
     min_cost.append(cost_min)
 
-    cost_max = max(cost)
+    cost_max = max(cost00001)
     max_cost.append(cost_max)
 
     x_axis = []
-    for i in range(number):
+    for i in range(number00001):
+        x_axis.append(i)
+
+    # ----
+    x_axis = []
+    for i in range(len(min_rsme)):
+        x_axis.append(i)
+
+    plt.title("Min Values of RSME for different Learning Rates")
+    plt.plot(x_axis, min_rsme, color="green", label = "Minimum")
+    plt.legend()
+    plt.show()
+
+    plt.title("Min Values of cost for different Learning Rates")
+    plt.plot(x_axis, min_cost, color="green", label = "Minimum")
+    plt.legend()
+    plt.show()
+
+    # ----- Test ------ #
+    x_axis = []
+    for i in range(number0001):
         x_axis.append(i)
 
     plt.title("RSME - C val, Learning Rate= 0.00001 ")
-    plt.plot(x_axis, error, color="green")
+    plt.plot(x_axis, error00001, color="green")
     plt.show()
 
     plt.title("Cost - C Val , Learning Rate= 0.00001")
-    plt.plot(x_axis, cost, color="green")
+    plt.plot(x_axis, cost00001, color="green")
     plt.show()
-
-    # ----
-    e = 0.00001
-    w_ = [80, 100]
-    w_0 = np.array(w_)
-    LR = 0.000001
-    C = 10
-
-    error, cost, statement, support_vectors, number = iterate_C_values(X_vals, Y_vals, e, w_0, C, LR, 600)
-    print(error)
-    print(cost)
-    print(support_vectors)
-    print(number)
-
-    error_min = min(error)
-    min_rsme.append(error_min)
-
-    error_max = max(error)
-    max_rsme.append(error_max)
-
-    cost_min = min(cost)
-    min_cost.append(cost_min)
-
-    cost_max = max(cost)
-    max_cost.append(cost_max)
-
-    x_axis = []
-    for i in range(number):
-        x_axis.append(i)
-
-    plt.title("RSME - C val, Learning Rate= 0.000001 ")
-    plt.plot(x_axis, error, color="green")
-    plt.show()
-
-    plt.title("Cost - C Val , Learning Rate= 0.000001")
-    plt.plot(x_axis, cost, color="green")
-    plt.show()
-
-    print(cost_max)
-    x_axis = []
-    for i in range(len(cost_max)):
-        x_axis.append(i)
-
-    plt.title("Min and Max Values of RSME for different Learning Rates")
-    plt.plot(x_axis, min_rsme, color="green")
-    plt.plot(x_axis, max_rsme, color="red")
-    plt.legend()
-    plt.show()
-
-    plt.title("Min and Max Values of cost for different Learning Rates")
-    plt.plot(x_axis, min_cost, color="green")
-    plt.plot(x_axis, max_cost, color="red")
-    plt.legend()
-    plt.show()
-
-    '''e = 0.1
-    w_ = [80, 100]
-    w_0 = np.array(w_)
-    LR = 0.00001
-    C = 0.00001
-
-    error, cost, statement, support_vectors, number = iterate_eps_values(X_vals, Y_vals, e, w_0, C, LR, 600)
-    print(error)
-    print(cost)
-    print(support_vectors)
-    print(number)
-
-    x_axis = []
-    for i in range(number):
-        x_axis.append(i)
-
-    plt.title("RSME - eps")
-    plt.plot(x_axis, error, color="green")
-    plt.show()
-
-    plt.title("Cost - eps")
-    plt.plot(x_axis, cost, color="green")
-    plt.show()'''
-
-
-
-
-
