@@ -337,53 +337,6 @@ if __name__ == '__main__':
     Y = Y[:-prediction_days]
     Y_vals = np.array(Y)
 
-    '''e = 0.00001
-    w_ = [80, 100]
-    w_0 = np.array(w_)
-    C = .00001
-    LR = 0.00001
-
-    X_batch = np.array_split(X_vals, 26)
-    X_batch = np.array(X_batch)
-    Y_batch = np.array_split(Y_vals, 26)
-    Y_batch = np.array(Y_batch)
-
-    W = SVR_linear_sgdNoBatch(X_vals, Y_vals, e, w_0, C, LR, 600)
-    # W = SVR_linear_sgd(X_batch,Y_batch,e, w_0, C, LR, 600)
-    print(W)
-
-    X_vals = X_vals.reshape(1, -1)
-    W = W.reshape(-1, 1)
-
-    Y_vals = Y_vals.reshape(-1, 1)
-
-    rmse = rmse(X_vals, W, Y_vals)
-    print("The rmse:", rmse)
-
-    Y_vals_pred = prediction(X_vals, W)
-
-    x_m = []
-    for i in range(25):
-        x_m.append(i)
-    x_M = np.array(x_m)
-
-    equation = x_M * W[0] + W[1]
-
-    plt.scatter(X_vals, Y_vals)
-    plt.plot(x_M, equation, label="Regression", color="red")
-    plt.legend()
-    plt.show()
-
-    plt.plot(Y_vals, label="Actual Values", color="green")
-    plt.plot(Y_vals_pred[0], label="My Prediction", color="blue")
-    plt.legend()
-    plt.show()
-
-    plt.title("RSME")
-    plt.plot(count, Y_vals, color="green")
-    plt.legend()
-    plt.show()'''
-
     # ---- Checking the ideal value of C and the Learning Rate ---- #
     '''e = 0.00001
     w_ = [80, 100]
