@@ -840,8 +840,8 @@ if __name__ == '__main__':
     equation = x_M * SV_error[0] + SV_error[1]
     plt.scatter(X_vals, Y_vals)
     plt.title(f'Min RSME W vector, C: {C}, LR: {SV_LR_error}')
-    plt.text(15, 100, f'RSME: {min_error}')
-    plt.text(15, 80, f'W: {SV_error}')
+    plt.text(13.5, 10, f'RSME: {min_error}')
+    plt.text(13.5, 8, f'W: {SV_error}')
     plt.plot(x_M, equation, label="Regression", color="red")
     plt.ylabel("Today's value")
     plt.xlabel("Previous Day value")
@@ -873,8 +873,8 @@ if __name__ == '__main__':
     equation = x_M * SV_error[0] + SV_error[1]
     plt.scatter(X_vals, Y_vals)
     plt.title(f'Min RSME W vector, C: {C}, LR: {SV_LR_error}')
-    plt.text(15, 100, f'RSME: {min_error}')
-    plt.text(15, 80, f'W: {SV_error}')
+    plt.text(13.5, 10, f'RSME: {min_error}')
+    plt.text(13.5, 8, f'W: {SV_error}')
     plt.plot(x_M, equation, label="Regression", color="red")
     plt.ylabel("Today's value")
     plt.xlabel("Previous Day value")
