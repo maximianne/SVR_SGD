@@ -305,6 +305,25 @@ def iterate_C_values(x, y, eps, w, start_c_val, learning_Rate, iters):
     return rsme, cost, reached, W_vects, count
 
 
+def iterate_LR_values(x, y, eps, w, c_val, min_LR, increment, max_LR, iters):
+    count = 0
+    rsme = []
+    cost = []
+    reached = []
+    W_vects = []
+    LR = []
+    while min_LR < max_LR:
+        LR.append(min_LR)
+        w, reach, CE, CC = SVR_linear_sgdNoBatch(x, y, eps, w, c_val, min_LR, iters)
+        rsme.append(CE)
+        cost.append(CC)
+        reached.append(reach)
+        W_vects.append(w)
+        min_LR = min_LR + increment
+        count += 1
+    return rsme, cost, reached, W_vects, count, LR
+
+
 if __name__ == '__main__':
     currency = data()
 
@@ -456,12 +475,13 @@ if __name__ == '__main__':
     plt.legend()
     plt.show()'''
 
+    # ---- Valuating the range of C and LR---- #
     e = 0.00001
     w_ = [80, 100]
     w_0 = np.array(w_)
 
     # --- C = 0.0001 , LR = 0.01 --- #
-    LR = 0.01
+    '''LR = 0.01
     C = 0.0001
     W, state, error, cost = SVR_linear_sgdNoBatch(X_vals, Y_vals, e, w_0, C, LR, 600)
     print(W)
@@ -484,16 +504,6 @@ if __name__ == '__main__':
     plt.plot(x_M, equation, label="Regression", color="red")
     plt.ylabel("Today's value")
     plt.xlabel("Previous Day value")
-    plt.legend()
-    plt.show()
-
-    plt.title(f'TRAINING MODEL: Currency Exchange, C: {C}, LR: {LR}')
-    plt.plot(Y_vals, label="Actual Values", color="green")
-    plt.plot(Y_vals_pred, label="My Model's Predicted Values", color="blue")
-    plt.text(200, 5, f'RSME: {error}')
-    plt.text(200, 3, f'Cost: {cost}')
-    plt.ylabel("1 USD/ MXN")
-    plt.xlabel("Monthly Values from 1993 - 2020")
     plt.legend()
     plt.show()
 
@@ -524,16 +534,6 @@ if __name__ == '__main__':
     plt.legend()
     plt.show()
 
-    plt.title(f'TRAINING MODEL: Currency Exchange, C: {C}, LR: {LR}')
-    plt.plot(Y_vals, label="Actual Values", color="green")
-    plt.plot(Y_vals_pred, label="My Model's Predicted Values", color="blue")
-    plt.text(200, 4, f'RSME: {error}')
-    plt.text(200, 2, f'Cost: {cost}')
-    plt.ylabel("1 USD/ MXN")
-    plt.xlabel("Monthly Values from 1993 - 2020")
-    plt.legend()
-    plt.show()
-
 # --- C = 0.0001 , LR = 0.0001 --- #
     LR = 0.0001
     C = 0.0001
@@ -561,16 +561,6 @@ if __name__ == '__main__':
     plt.legend()
     plt.show()
 
-    plt.title(f'TRAINING MODEL: Currency Exchange, C: {C}, LR: {LR}')
-    plt.plot(Y_vals, label="Actual Values", color="green")
-    plt.plot(Y_vals_pred, label="My Model's Predicted Values", color="blue")
-    plt.text(200, 5, f'RSME: {error}')
-    plt.text(200, 3, f'Cost: {cost}')
-    plt.ylabel("1 USD/ MXN")
-    plt.xlabel("Monthly Values from 1993 - 2020")
-    plt.legend()
-    plt.show()
-
     # --- C = 0.0001 , LR = 0.00001 --- #
     LR = 0.00001
     C = 0.0001
@@ -595,16 +585,6 @@ if __name__ == '__main__':
     plt.plot(x_M, equation, label="Regression", color="red")
     plt.ylabel("Today's value")
     plt.xlabel("Previous Day value")
-    plt.legend()
-    plt.show()
-
-    plt.title(f'TRAINING MODEL: Currency Exchange, C: {C}, LR: {LR}')
-    plt.plot(Y_vals, label="Actual Values", color="green")
-    plt.plot(Y_vals_pred, label="My Model's Predicted Values", color="blue")
-    plt.text(255, 12.5, f'RSME: {error}')
-    plt.text(255, 10.5, f'Cost: {cost}')
-    plt.ylabel("1 USD/ MXN")
-    plt.xlabel("Monthly Values from 1993 - 2020")
     plt.legend()
     plt.show()
 
@@ -636,16 +616,6 @@ if __name__ == '__main__':
     plt.legend()
     plt.show()
 
-    plt.title(f'TRAINING MODEL: Currency Exchange, C: {C}, LR: {LR}')
-    plt.plot(Y_vals, label="Actual Values", color="green")
-    plt.plot(Y_vals_pred, label="My Model's Predicted Values", color="blue")
-    plt.text(200, 5, f'RSME: {error}')
-    plt.text(200, 3, f'Cost: {cost}')
-    plt.ylabel("1 USD/ MXN")
-    plt.xlabel("Monthly Values from 1993 - 2020")
-    plt.legend()
-    plt.show()
-
     # --- C = 0.00001 , LR = 0.001 --- #
     LR = 0.001
     C = 0.00001
@@ -670,16 +640,6 @@ if __name__ == '__main__':
     plt.plot(x_M, equation, label="Regression", color="red")
     plt.ylabel("Today's value")
     plt.xlabel("Previous Day value")
-    plt.legend()
-    plt.show()
-
-    plt.title(f'TRAINING MODEL: Currency Exchange, C: {C}, LR: {LR}')
-    plt.plot(Y_vals, label="Actual Values", color="green")
-    plt.plot(Y_vals_pred, label="My Model's Predicted Values", color="blue")
-    plt.text(200, 5, f'RSME: {error}')
-    plt.text(200, 3, f'Cost: {cost}')
-    plt.ylabel("1 USD/ MXN")
-    plt.xlabel("Monthly Values from 1993 - 2020")
     plt.legend()
     plt.show()
 
@@ -710,16 +670,6 @@ if __name__ == '__main__':
     plt.legend()
     plt.show()
 
-    plt.title(f'TRAINING MODEL: Currency Exchange, C: {C}, LR: {LR}')
-    plt.plot(Y_vals, label="Actual Values", color="green")
-    plt.plot(Y_vals_pred, label="My Model's Predicted Values", color="blue")
-    plt.text(200, 7.5, f'RSME: {error}')
-    plt.text(200, 5.5, f'Cost: {cost}')
-    plt.ylabel("1 USD/ MXN")
-    plt.xlabel("Monthly Values from 1993 - 2020")
-    plt.legend()
-    plt.show()
-
     # --- C = 0.00001 , LR = 0.00001 --- #
     LR = 0.00001
     C = 0.00001
@@ -744,16 +694,6 @@ if __name__ == '__main__':
     plt.plot(x_M, equation, label="Regression", color="red")
     plt.ylabel("Today's value")
     plt.xlabel("Previous Day value")
-    plt.legend()
-    plt.show()
-
-    plt.title(f'TRAINING MODEL: Currency Exchange, C: {C}, LR: {LR}')
-    plt.plot(Y_vals, label="Actual Values", color="green")
-    plt.plot(Y_vals_pred, label="My Model's Predicted Values", color="blue")
-    plt.text(200, 10, f'RSME: {error}')
-    plt.text(200, 8, f'Cost: {cost}')
-    plt.ylabel("1 USD/ MXN")
-    plt.xlabel("Monthly Values from 1993 - 2020")
     plt.legend()
     plt.show()
 
@@ -785,16 +725,6 @@ if __name__ == '__main__':
     plt.legend()
     plt.show()
 
-    plt.title(f'TRAINING MODEL: Currency Exchange, C: {C}, LR: {LR}')
-    plt.plot(Y_vals, label="Actual Values", color="green")
-    plt.plot(Y_vals_pred, label="My Model's Predicted Values", color="blue")
-    plt.text(200, 5, f'RSME: {error}')
-    plt.text(200, 3, f'Cost: {cost}')
-    plt.ylabel("1 USD/ MXN")
-    plt.xlabel("Monthly Values from 1993 - 2020")
-    plt.legend()
-    plt.show()
-
     # --- C = 0.000001 , LR = 0.001 --- #
     LR = 0.001
     C = 0.000001
@@ -819,16 +749,6 @@ if __name__ == '__main__':
     plt.plot(x_M, equation, label="Regression", color="red")
     plt.ylabel("Today's value")
     plt.xlabel("Previous Day value")
-    plt.legend()
-    plt.show()
-
-    plt.title(f'TRAINING MODEL: Currency Exchange, C: {C}, LR: {LR}')
-    plt.plot(Y_vals, label="Actual Values", color="green")
-    plt.plot(Y_vals_pred, label="My Model's Predicted Values", color="blue")
-    plt.text(200, 5, f'RSME: {error}')
-    plt.text(200, 3, f'Cost: {cost}')
-    plt.ylabel("1 USD/ MXN")
-    plt.xlabel("Monthly Values from 1993 - 2020")
     plt.legend()
     plt.show()
 
@@ -859,16 +779,6 @@ if __name__ == '__main__':
     plt.legend()
     plt.show()
 
-    plt.title(f'TRAINING MODEL: Currency Exchange, C: {C}, LR: {LR}')
-    plt.plot(Y_vals, label="Actual Values", color="green")
-    plt.plot(Y_vals_pred, label="My Model's Predicted Values", color="blue")
-    plt.text(200, 8, f'RSME: {error}')
-    plt.text(200, 6, f'Cost: {cost}')
-    plt.ylabel("1 USD/ MXN")
-    plt.xlabel("Monthly Values from 1993 - 2020")
-    plt.legend()
-    plt.show()
-
     # --- C = 0.000001 , LR = 0.00001 --- #
     LR = 0.00001
     C = 0.000001
@@ -889,20 +799,85 @@ if __name__ == '__main__':
     plt.scatter(X_vals, Y_vals)
     plt.title(f'TRAINING MODEL: Currency Exchange, C: {C}, LR: {LR}')
     plt.text(15, 100, f'RSME: {error}')
-    plt.text(15, 97, f'Cost: {cost}')
+    plt.text(15, 80, f'Cost: {cost}')
+    plt.plot(x_M, equation, label="Regression", color="red")
+    plt.ylabel("Today's value")
+    plt.xlabel("Previous Day value")
+    plt.legend()
+    plt.show()'''
+
+# there were our best
+    C = 0.00001
+    max_L = 0.0001  # under estimate
+    min_L = 0.00001  # over estimate
+
+    error, cost, statement, support_vectors, number, learning_rate_array = iterate_LR_values(X_vals, Y_vals, e, w_0, C, min_L, 0.000001, max_L, 600)
+
+    x_axis = []
+    for i in range(number):
+        x_axis.append(i)
+
+    plt.title("RSME- C = 1.0e-5, Learning Rates Ranging: 0.00001 - 0.0001")
+    plt.plot(learning_rate_array, error)
+    plt.xlabel("LR Value")
+    plt.ylabel("RSME Size")
+    plt.show()
+
+    min_error = min(error)
+    min_index_error = error.index(min_error)
+
+    SV_error = support_vectors[min_index_error]
+    SV_LR_error = learning_rate_array[min_index_error]
+
+    min_error = format(min_error, ".2f")
+    SV_LR_error = format(SV_LR_error, ".7f")
+
+    x_m = []
+    for i in range(25):
+        x_m.append(i)
+    x_M = np.array(x_m)
+
+    equation = x_M * SV_error[0] + SV_error[1]
+    plt.scatter(X_vals, Y_vals)
+    plt.title(f'Min RSME W vector, C: {C}, LR: {SV_LR_error}')
+    plt.text(15, 100, f'RSME: {min_error}')
+    plt.text(15, 80, f'W: {SV_error}')
     plt.plot(x_M, equation, label="Regression", color="red")
     plt.ylabel("Today's value")
     plt.xlabel("Previous Day value")
     plt.legend()
     plt.show()
 
-    plt.title(f'TRAINING MODEL: Currency Exchange, C: {C}, LR: {LR}')
-    plt.plot(Y_vals, label="Actual Values", color="green")
-    plt.plot(Y_vals_pred, label="My Model's Predicted Values", color="blue")
-    plt.text(200, 100, f'RSME: {error}')
-    plt.text(200, 97, f'Cost: {cost}')
-    plt.ylabel("1 USD/ MXN")
-    plt.xlabel("Monthly Values from 1993 - 2020")
+    # ---- other value of C ---- #
+    C = 0.000001
+    max_L = 0.0001  # under estimate
+    min_L = 0.00001  # over estimate
+
+    error, cost, statement, support_vectors, number, learning_rate_array = iterate_LR_values(X_vals, Y_vals, e, w_0, C, min_L, 0.000001, max_L, 600)
+
+    plt.title("RSME- C = 1.0e-6, Learning Rates Ranging: 0.00001 - 0.0001")
+    plt.plot(learning_rate_array, error)
+    plt.xlabel("LR Value")
+    plt.ylabel("RSME Size")
+    plt.show()
+
+    min_error = min(error)
+    min_index_error = error.index(min_error)
+
+    SV_error = support_vectors[min_index_error]
+    SV_LR_error = learning_rate_array[min_index_error]
+
+    min_error = format(min_error, ".2f")
+    SV_LR_error = format(SV_LR_error, ".7f")
+
+    equation = x_M * SV_error[0] + SV_error[1]
+    plt.scatter(X_vals, Y_vals)
+    plt.title(f'Min RSME W vector, C: {C}, LR: {SV_LR_error}')
+    plt.text(15, 100, f'RSME: {min_error}')
+    plt.text(15, 80, f'W: {SV_error}')
+    plt.plot(x_M, equation, label="Regression", color="red")
+    plt.ylabel("Today's value")
+    plt.xlabel("Previous Day value")
     plt.legend()
     plt.show()
 
