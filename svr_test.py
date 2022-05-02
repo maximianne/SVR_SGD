@@ -295,11 +295,11 @@ def iterate_C_values(x, y, eps, w, start_c_val, learning_Rate, iters):
     W_vects = []
     while start_c_val > .000000001:
         print(start_c_val)
-        w, reach, CE, CC = SVR_linear_sgdNoBatch(x, y, eps, w, start_c_val, learning_Rate, iters)
+        W, reach, CE, CC = SVR_linear_sgdNoBatch(x, y, eps, w, start_c_val, learning_Rate, iters)
         rsme.append(CE)
         cost.append(CC)
         reached.append(reach)
-        W_vects.append(w)
+        W_vects.append(W)
         start_c_val = start_c_val * .1
         count += 1
     return rsme, cost, reached, W_vects, count
@@ -314,14 +314,41 @@ def iterate_LR_values(x, y, eps, w, c_val, min_LR, increment, max_LR, iters):
     LR = []
     while min_LR < max_LR:
         LR.append(min_LR)
-        w, reach, CE, CC = SVR_linear_sgdNoBatch(x, y, eps, w, c_val, min_LR, iters)
+        W, reach, CE, CC = SVR_linear_sgdNoBatch(x, y, eps, w, c_val, min_LR, iters)
+        rsme.append(CE)
+        cost.append(CC)
+        reached.append(reach)
+        W_vects.append(W)
+        min_LR = min_LR + increment
+        count += 1
+    return rsme, cost, reached, W_vects, count, LR
+
+
+def iterate_C_adj_values(x, y, eps, w, learning_rate, min_C, increment, max_C, iters):
+    count = 0
+    rsme = []
+    cost = []
+    reached = []
+    W_vects = []
+    C_vals = []
+    while min_C < max_C:
+        C_vals.append(min_C)
+        w, reach, CE, CC = SVR_linear_sgdNoBatch(x, y, eps, w, min_C, learning_rate, iters)
         rsme.append(CE)
         cost.append(CC)
         reached.append(reach)
         W_vects.append(w)
-        min_LR = min_LR + increment
+        min_C = min_C + increment
         count += 1
-    return rsme, cost, reached, W_vects, count, LR
+    return rsme, cost, reached, W_vects, count, C_vals
+
+
+def accuracy_metric(actual, predicted):
+    correct = 0
+    for i in range(len(actual)):
+        if actual[i] == predicted[i]:
+            correct += 1
+    return correct / float(len(actual)) * 100.0
 
 
 if __name__ == '__main__':
@@ -338,11 +365,11 @@ if __name__ == '__main__':
     Y_vals = np.array(Y)
 
     # ---- Checking the ideal value of C and the Learning Rate ---- #
-    '''e = 0.00001
+    e = 0.00001
     w_ = [80, 100]
     w_0 = np.array(w_)
-    LR = 0.1
-    C = 1
+    '''LR = 0.1
+    C = .1
 
     error1, cost1, statement1, support_vectors1, number1 = iterate_C_values(X_vals, Y_vals, e, w_0, C, LR, 600)
     print(error1)
@@ -351,7 +378,7 @@ if __name__ == '__main__':
 
     # ----
     LR = 0.01
-    C = 1
+    C = .1
 
     error01, cost01, statement01, support_vectors01, number01 = iterate_C_values(X_vals, Y_vals, e, w_0, C, LR, 600)
     print(error01)
@@ -360,7 +387,7 @@ if __name__ == '__main__':
 
     # ----
     LR = 0.001
-    C = 1
+    C = .1
 
     error001, cost001, statement001, support_vectors001, number001 = iterate_C_values(X_vals, Y_vals, e, w_0, C, LR,
                                                                                       600)
@@ -370,7 +397,7 @@ if __name__ == '__main__':
 
     # ----
     LR = 0.0001
-    C = 1
+    C = .1
     error0001, cost0001, statement0001, support_vectors0001, number0001 = iterate_C_values(X_vals, Y_vals, e, w_0, C,
                                                                                            LR, 600)
     print(error0001)
@@ -379,7 +406,7 @@ if __name__ == '__main__':
 
     # ----
     LR = 0.00001
-    C = 1
+    C = .1
     error00001, cost00001, statement00001, support_vectors00001, number00001 = iterate_C_values(X_vals, Y_vals, e, w_0,
                                                                                                 C, LR, 600)
     print(error00001)
@@ -388,7 +415,7 @@ if __name__ == '__main__':
 
     # ----
     LR = 0.000001
-    C = 1
+    C = .1
     error000001, cost000001, statement000001, support_vectors000001, number000001 = iterate_C_values(X_vals, Y_vals, e,
                                                                                                      w_0, C, LR, 600)
     print(error000001)
@@ -400,7 +427,7 @@ if __name__ == '__main__':
     for i in range(number00001):
         x_axis.append(i)
 
-    C_vals_array = ['1', '0.1', '0.01', '1.0e-3', '1.0e-4', '1.0e-5', '1.0e-6', '1.0e-7', '1.0e-8', '1.0e-9']
+    C_vals_array = ['0.1', '0.01', '1.0e-3', '1.0e-4', '1.0e-5', '1.0e-6', '1.0e-7', '1.0e-8', '1.0e-9']
 
     plt.title("RSME - C val, Learning Rates")
     plt.plot(x_axis, error000001, label="LR = 0.000001")
@@ -415,26 +442,33 @@ if __name__ == '__main__':
     plt.legend()
     plt.show()
 
-    plt.title("Cost - C Val , Learning Rate")
-    plt.plot(x_axis, cost000001, label="LR = 0.000001")
-    plt.plot(x_axis, cost00001, label="LR = 0.00001")
-    plt.plot(x_axis, cost0001, label="LR = 0.0001")
-    plt.plot(x_axis, cost001, label="LR = 0.001")
-    plt.plot(x_axis, cost01, label="LR = 0.01")
-    plt.plot(x_axis, cost1, label="LR = 0.1")
+    x_axis = []
+    for i in range(number00001-1):
+        x_axis.append(i)
+
+    C_vals_array = ['0.01', '1.0e-3', '1.0e-4', '1.0e-5', '1.0e-6', '1.0e-7', '1.0e-8', '1.0e-9']
+
+    plt.title("RSME - C val, Learning Rates")
+    plt.plot(x_axis, error000001[1:], label="LR = 0.000001")
+    plt.plot(x_axis, error00001[1:], label="LR = 0.00001")
+    plt.plot(x_axis, error0001[1:], label="LR = 0.0001")
+    plt.plot(x_axis, error001[1:], label="LR = 0.001")
+    plt.plot(x_axis, error01[1:], label="LR = 0.01")
+    plt.plot(x_axis, error1[1:], label="LR = 0.1")
     plt.xticks(x_axis, C_vals_array)
     plt.xlabel("C Value")
-    plt.ylabel("Cost Size")
+    plt.ylabel("RSME Size")
     plt.legend()
     plt.show()'''
 
+
     # ---- Valuating the range of C and LR---- #
-    e = 0.00001
+    '''e = 0.00001
     w_ = [80, 100]
     w_0 = np.array(w_)
 
     # --- C = 0.0001 , LR = 0.01 --- #
-    '''LR = 0.01
+    LR = 0.01
     C = 0.0001
     W, state, error, cost = SVR_linear_sgdNoBatch(X_vals, Y_vals, e, w_0, C, LR, 600)
     print(W)
@@ -759,8 +793,8 @@ if __name__ == '__main__':
     plt.legend()
     plt.show()'''
 
-# there were our best
-    C = 0.00001
+    # there were our best
+    '''C = 0.00001
     max_L = 0.0001  # under estimate
     min_L = 0.00001  # over estimate
 
@@ -832,5 +866,86 @@ if __name__ == '__main__':
     plt.ylabel("Today's value")
     plt.xlabel("Previous Day value")
     plt.legend()
+    plt.show()'''
+
+    X_v = currency[['Average']]
+    pred_vals = X_v[324:]
+    pred_vals = np.array(pred_vals)
+
+    C = 0.00001
+    LR = 0.0000110
+    W, state, error, cost = SVR_linear_sgdNoBatch(X_vals, Y_vals, e, w_0, C, LR, 600)
+
+    prediction_values = prediction(pred_vals, W)
+    print(prediction_values)
+
+    x_m = []
+    for i in range(12):
+        x_m.append(i)
+    x_M = np.array(x_m)
+
+    plt.title(f'Currency Rate for 2021, C: {C}, LR: {LR}')
+    plt.plot(x_M, pred_vals, label="The Actual values", color="green")
+    plt.plot(x_M, prediction_values, label="Our Predicted values", color="red")
+    plt.ylabel("Pesos per Dollar")
+    plt.xlabel("Months")
+    plt.legend()
     plt.show()
 
+    C = 0.000001
+    LR = 0.0000220
+    W, state, error, cost = SVR_linear_sgdNoBatch(X_vals, Y_vals, e, w_0, C, LR, 600)
+
+    prediction_values = prediction(pred_vals, W)
+    print(prediction_values)
+
+    x_m = []
+    for i in range(12):
+        x_m.append(i)
+    x_M = np.array(x_m)
+
+    plt.title(f'Currency Rate for 2021, C: {C}, LR: {LR}')
+    plt.plot(x_M, pred_vals, label="The Actual values", color="green")
+    plt.plot(x_M, prediction_values, label="Our Predicted values", color="red")
+    plt.ylabel("Pesos per Dollar")
+    plt.xlabel("Months")
+    plt.legend()
+    plt.show()
+
+
+
+    # we need to adjust our C value further.
+    '''C_min =0.000001
+    C_max= 0.00001
+    LR = 0.0000110
+
+    error, cost, statement, support_vectors, number, C_val_array = iterate_C_adj_values(X_vals, Y_vals, e, w_0, LR, C_min, 0.000001, C_max, 600)
+
+    plt.title("RSME- C = 1.0e-6, C_vals Ranging: 0.00001 - 0.0001")
+    plt.plot(C_val_array, error)
+    plt.xlabel("C Value")
+    plt.ylabel("RSME Size")
+    plt.show()
+
+    min_error = min(error)
+    min_index_error = error.index(min_error)
+
+    SV_error = support_vectors[min_index_error]
+    C_value = C_val_array[min_index_error]
+    prediction_values = prediction(pred_vals, SV_error)
+    print(prediction_values)
+
+    x_m = []
+    for i in range(12):
+        x_m.append(i)
+    x_M = np.array(x_m)
+
+    # C_value = format(C_value, ".7f")
+
+    plt.title(f'Currency Rate for 2021, C: {C_value}, LR: {LR}')
+    plt.plot(x_M, pred_vals, label="The Actual values", color="green")
+    plt.plot(x_M, prediction_values, label="Our Predicted values", color="red")
+    plt.ylabel("Pesos per Dollar")
+    plt.xlabel("Months")
+    plt.legend()
+    plt.show()'''
