@@ -872,7 +872,7 @@ if __name__ == '__main__':
     pred_vals = X_v[324:]
     pred_vals = np.array(pred_vals)
 
-    C = 0.00001
+    '''C = 0.00001
     LR = 0.0000110
     W, state, error, cost = SVR_linear_sgdNoBatch(X_vals, Y_vals, e, w_0, C, LR, 600)
 
@@ -910,29 +910,15 @@ if __name__ == '__main__':
     plt.ylabel("Pesos per Dollar")
     plt.xlabel("Months")
     plt.legend()
-    plt.show()
+    plt.show()'''
 
+# ---- try different values of epsilon---- #
+    '''C = 0.000001
+    LR = 0.0000220
+    e = 0.1
+    W, state, error, cost = SVR_linear_sgdNoBatch(X_vals, Y_vals, e, w_0, C, LR, 600)
 
-
-    # we need to adjust our C value further.
-    '''C_min =0.000001
-    C_max= 0.00001
-    LR = 0.0000110
-
-    error, cost, statement, support_vectors, number, C_val_array = iterate_C_adj_values(X_vals, Y_vals, e, w_0, LR, C_min, 0.000001, C_max, 600)
-
-    plt.title("RSME- C = 1.0e-6, C_vals Ranging: 0.00001 - 0.0001")
-    plt.plot(C_val_array, error)
-    plt.xlabel("C Value")
-    plt.ylabel("RSME Size")
-    plt.show()
-
-    min_error = min(error)
-    min_index_error = error.index(min_error)
-
-    SV_error = support_vectors[min_index_error]
-    C_value = C_val_array[min_index_error]
-    prediction_values = prediction(pred_vals, SV_error)
+    prediction_values = prediction(pred_vals, W)
     print(prediction_values)
 
     x_m = []
@@ -940,12 +926,83 @@ if __name__ == '__main__':
         x_m.append(i)
     x_M = np.array(x_m)
 
-    # C_value = format(C_value, ".7f")
+    plt.title(f'Currency Rate for 2021, epsilon: {e}')
+    plt.plot(x_M, pred_vals, label="The Actual values", color="green")
+    plt.plot(x_M, prediction_values, label="Our Predicted values", color="red")
+    plt.ylabel("Pesos per Dollar")
+    plt.xlabel("Months")
+    plt.legend()
+    plt.show()
 
-    plt.title(f'Currency Rate for 2021, C: {C_value}, LR: {LR}')
+    e = 0.01
+    W, state, error, cost = SVR_linear_sgdNoBatch(X_vals, Y_vals, e, w_0, C, LR, 600)
+
+    prediction_values = prediction(pred_vals, W)
+    print(prediction_values)
+
+    plt.title(f'Currency Rate for 2021, epsilon: {e}')
+    plt.plot(x_M, pred_vals, label="The Actual values", color="green")
+    plt.plot(x_M, prediction_values, label="Our Predicted values", color="red")
+    plt.ylabel("Pesos per Dollar")
+    plt.xlabel("Months")
+    plt.legend()
+    plt.show()
+
+    e = 0.001
+    W, state, error, cost = SVR_linear_sgdNoBatch(X_vals, Y_vals, e, w_0, C, LR, 600)
+
+    prediction_values = prediction(pred_vals, W)
+    print(prediction_values)
+
+    plt.title(f'Currency Rate for 2021, epsilon: {e}')
+    plt.plot(x_M, pred_vals, label="The Actual values", color="green")
+    plt.plot(x_M, prediction_values, label="Our Predicted values", color="red")
+    plt.ylabel("Pesos per Dollar")
+    plt.xlabel("Months")
+    plt.legend()
+    plt.show()
+
+    e = 0.0001
+    W, state, error, cost = SVR_linear_sgdNoBatch(X_vals, Y_vals, e, w_0, C, LR, 600)
+
+    prediction_values = prediction(pred_vals, W)
+    print(prediction_values)
+
+    plt.title(f'Currency Rate for 2021, epsilon: {e}')
+    plt.plot(x_M, pred_vals, label="The Actual values", color="green")
+    plt.plot(x_M, prediction_values, label="Our Predicted values", color="red")
+    plt.ylabel("Pesos per Dollar")
+    plt.xlabel("Months")
+    plt.legend()
+    plt.show()
+
+    e = 0.00001
+    W, state, error, cost = SVR_linear_sgdNoBatch(X_vals, Y_vals, e, w_0, C, LR, 600)
+
+    prediction_values = prediction(pred_vals, W)
+    print(prediction_values)
+
+    plt.title(f'Currency Rate for 2021, epsilon: {e}')
+    plt.plot(x_M, pred_vals, label="The Actual values", color="green")
+    plt.plot(x_M, prediction_values, label="Our Predicted values", color="red")
+    plt.ylabel("Pesos per Dollar")
+    plt.xlabel("Months")
+    plt.legend()
+    plt.show()
+
+    e = 0.000001
+    W, state, error, cost = SVR_linear_sgdNoBatch(X_vals, Y_vals, e, w_0, C, LR, 600)
+
+    prediction_values = prediction(pred_vals, W)
+    print(prediction_values)
+
+    plt.title(f'Currency Rate for 2021, epsilon: {e}')
     plt.plot(x_M, pred_vals, label="The Actual values", color="green")
     plt.plot(x_M, prediction_values, label="Our Predicted values", color="red")
     plt.ylabel("Pesos per Dollar")
     plt.xlabel("Months")
     plt.legend()
     plt.show()'''
+
+
+
