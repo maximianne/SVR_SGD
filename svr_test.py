@@ -343,14 +343,6 @@ def iterate_C_adj_values(x, y, eps, w, learning_rate, min_C, increment, max_C, i
     return rsme, cost, reached, W_vects, count, C_vals
 
 
-def accuracy_metric(actual, predicted):
-    correct = 0
-    for i in range(len(actual)):
-        if actual[i] == predicted[i]:
-            correct += 1
-    return correct / float(len(actual)) * 100.0
-
-
 if __name__ == '__main__':
     currency = data()
 
@@ -994,7 +986,6 @@ if __name__ == '__main__':
     W, state, error, cost = SVR_linear_sgdNoBatch(X_vals, Y_vals, e, w_0, C, LR, 600)
 
     prediction_values = prediction(pred_vals, W)
-    print(prediction_values)
 
     plt.title(f'Currency Rate for 2021, epsilon: {e}')
     plt.plot(x_M, pred_vals, label="The Actual values", color="green")
@@ -1003,6 +994,37 @@ if __name__ == '__main__':
     plt.xlabel("Months")
     plt.legend()
     plt.show()'''
+
+# ----- final ----- #
+
+    C = 0.000001
+    LR = 0.0000220
+    e = 0.0001
+    W, state, error, cost = SVR_linear_sgdNoBatch(X_vals, Y_vals, e, w_0, C, LR, 600)
+
+    prediction_values = prediction(pred_vals, W)
+
+    x_m = []
+    for i in range(12):
+        x_m.append(i)
+    x_M = np.array(x_m)
+
+    y_real = np.array(pred_vals)
+    y_hat = np.array(prediction_values)
+
+    inside = y_real - y_hat
+    total = np.linalg.norm(inside) ** 2
+    rsme = np.sqrt(total / len(y_real))
+    rsme = format(rsme, ".7f")
+
+    plt.title(f'Currency Rate for 2021, C: {C}, LR: {LR}, epsilon: {e}', size = 13)
+    plt.plot(x_M, pred_vals, label="The Actual values", color="green")
+    plt.plot(x_M, prediction_values, label='Our Predicted values', color="red")
+    plt.text(3.5, 20.75, f'RSME: {rsme}', size=13)
+    plt.ylabel("Pesos per Dollar")
+    plt.xlabel("Months")
+    plt.legend()
+    plt.show()
 
 
 
