@@ -357,16 +357,29 @@ if __name__ == '__main__':
     Y_vals = np.array(Y)
 
     # ---- Checking the ideal value of C and the Learning Rate ---- #
-    e = 0.00001
+    '''e = 0.00001
     w_ = [80, 100]
     w_0 = np.array(w_)
-    '''LR = 0.1
+    LR = 0.1
     C = .1
 
     error1, cost1, statement1, support_vectors1, number1 = iterate_C_values(X_vals, Y_vals, e, w_0, C, LR, 600)
     print(error1)
     print(cost1)
     print(support_vectors1)
+
+    x_axis = []
+    for i in range(number1 - 1):
+        x_axis.append(i)
+
+    C_vals_array = ['0.01', '1.0e-3', '1.0e-4', '1.0e-5', '1.0e-6', '1.0e-7', '1.0e-8', '1.0e-9']
+
+    plt.title(f'RSME - C val, Learning Rate {LR}')
+    plt.plot(x_axis, error1[1:], label="LR = 0.1")
+    plt.xticks(x_axis, C_vals_array)
+    plt.xlabel("C Value")
+    plt.ylabel("RSME Size")
+    plt.show()
 
     # ----
     LR = 0.01
@@ -376,6 +389,13 @@ if __name__ == '__main__':
     print(error01)
     print(cost01)
     print(support_vectors01)
+
+    plt.title(f'RSME - C val, Learning Rate {LR}')
+    plt.plot(x_axis, error01[1:], label="LR = 0.01")
+    plt.xticks(x_axis, C_vals_array)
+    plt.xlabel("C Value")
+    plt.ylabel("RSME Size")
+    plt.show()
 
     # ----
     LR = 0.001
@@ -387,6 +407,13 @@ if __name__ == '__main__':
     print(cost001)
     print(support_vectors001)
 
+    plt.title(f'RSME - C val, Learning Rate {LR}')
+    plt.plot(x_axis, error001[1:], label="LR = 0.001")
+    plt.xticks(x_axis, C_vals_array)
+    plt.xlabel("C Value")
+    plt.ylabel("RSME Size")
+    plt.show()
+
     # ----
     LR = 0.0001
     C = .1
@@ -395,6 +422,13 @@ if __name__ == '__main__':
     print(error0001)
     print(cost0001)
     print(support_vectors0001)
+
+    plt.title(f'RSME - C val, Learning Rate {LR}')
+    plt.plot(x_axis, error0001[1:], label="LR = 0.0001")
+    plt.xticks(x_axis, C_vals_array)
+    plt.xlabel("C Value")
+    plt.ylabel("RSME Size")
+    plt.show()
 
     # ----
     LR = 0.00001
@@ -405,6 +439,13 @@ if __name__ == '__main__':
     print(cost00001)
     print(support_vectors00001)
 
+    plt.title(f'RSME - C val, Learning Rate {LR}')
+    plt.plot(x_axis, error00001[1:], label="LR = 0.00001")
+    plt.xticks(x_axis, C_vals_array)
+    plt.xlabel("C Value")
+    plt.ylabel("RSME Size")
+    plt.show()
+
     # ----
     LR = 0.000001
     C = .1
@@ -413,6 +454,13 @@ if __name__ == '__main__':
     print(error000001)
     print(cost000001)
     print(support_vectors000001)
+
+    plt.title(f'RSME - C val, Learning Rate {LR}')
+    plt.plot(x_axis, error000001[1:], label="LR = 0.000001")
+    plt.xticks(x_axis, C_vals_array)
+    plt.xlabel("C Value")
+    plt.ylabel("RSME Size")
+    plt.show()
 
     # ----- Visual Representation ------ #
     x_axis = []
@@ -451,17 +499,53 @@ if __name__ == '__main__':
     plt.xlabel("C Value")
     plt.ylabel("RSME Size")
     plt.legend()
-    plt.show()'''
+    plt.show()
 
+    x_axis = []
+    for i in range(number00001 - 3):
+        x_axis.append(i)
+
+    C_vals_array = ['1.0e-4', '1.0e-5', '1.0e-6', '1.0e-7', '1.0e-8', '1.0e-9']
+
+    plt.title("RSME - C val, Learning Rates")
+    plt.plot(x_axis, error0001[3:], label="LR = 0.0001")
+    plt.plot(x_axis, error001[3:], label="LR = 0.001")
+    plt.plot(x_axis, error01[3:], label="LR = 0.01")
+    plt.plot(x_axis, error1[3:], label="LR = 0.1")
+    plt.xticks(x_axis, C_vals_array)
+    plt.xlabel("C Value")
+    plt.ylabel("RSME Size")
+    plt.legend()
+    plt.show()
+
+    x_axis = [0,1]
+    C_vals_array = ['1.0e-4', '1.0e-5']
+    plot = [error00001[3], error00001[4]]
+    plt.title("RSME - C val, Learning Rate: 0.00001")
+    plt.plot(x_axis, plot)
+    plt.xticks(x_axis, C_vals_array)
+    plt.xlabel("C Value")
+    plt.ylabel("RSME Size")
+    plt.show()
+
+    x_axis = [0, 1]
+    C_vals_array = ['1.0e-3', '1.0e-4']
+    plot = [error000001[2], error000001[3]]
+    plt.title("RSME - C val, Learning Rate: 0.000001")
+    plt.plot(x_axis, plot)
+    plt.xticks(x_axis, C_vals_array)
+    plt.xlabel("C Value")
+    plt.ylabel("RSME Size")
+    plt.show()'''
 
     # ---- Valuating the range of C and LR---- #
     '''e = 0.00001
     w_ = [80, 100]
     w_0 = np.array(w_)
 
-    # --- C = 0.0001 , LR = 0.01 --- #
-    LR = 0.01
-    C = 0.0001
+    # --- C = 0.0001 , LR = 0.001 --- #
+    LR = 0.001
+    C = 0.00001
     W, state, error, cost = SVR_linear_sgdNoBatch(X_vals, Y_vals, e, w_0, C, LR, 600)
     print(W)
 
@@ -479,16 +563,15 @@ if __name__ == '__main__':
     plt.scatter(X_vals, Y_vals)
     plt.title(f'TRAINING MODEL: Currency Exchange, C: {C}, LR: {LR}')
     plt.text(15, 5, f'RSME: {error}')
-    plt.text(15, 3, f'Cost: {cost}')
     plt.plot(x_M, equation, label="Regression", color="red")
     plt.ylabel("Today's value")
     plt.xlabel("Previous Day value")
     plt.legend()
     plt.show()
 
-    # --- C = 0.0001 , LR = 0.001 --- #
+    # --- C = 0.00001 , LR = 0.001 --- #
     LR = 0.001
-    C = 0.0001
+    C = 0.000001
     W, state, error, cost = SVR_linear_sgdNoBatch(X_vals, Y_vals, e, w_0, C, LR, 600)
     print(W)
 
@@ -506,16 +589,15 @@ if __name__ == '__main__':
     plt.scatter(X_vals, Y_vals)
     plt.title(f'TRAINING MODEL: Currency Exchange, C: {C}, LR: {LR}')
     plt.text(15, 5, f'RSME: {error}')
-    plt.text(15, 3, f'Cost: {cost}')
     plt.plot(x_M, equation, label="Regression", color="red")
     plt.ylabel("Today's value")
     plt.xlabel("Previous Day value")
     plt.legend()
     plt.show()
 
-# --- C = 0.0001 , LR = 0.0001 --- #
-    LR = 0.0001
-    C = 0.0001
+# --- C = 0.000001 , LR = 0.001 --- #
+    LR = 0.001
+    C = 0.0000001
     W, state, error, cost = SVR_linear_sgdNoBatch(X_vals, Y_vals, e, w_0, C, LR, 600)
     print(W)
 
@@ -532,14 +614,93 @@ if __name__ == '__main__':
     equation = x_M * W[0] + W[1]
     plt.scatter(X_vals, Y_vals)
     plt.title(f'TRAINING MODEL: Currency Exchange, C: {C}, LR: {LR}')
-    plt.text(15, 10, f'RSME: {error}')
-    plt.text(15, 8, f'Cost: {cost}')
+    plt.text(15, 8, f'RSME: {error}')
     plt.plot(x_M, equation, label="Regression", color="red")
     plt.ylabel("Today's value")
     plt.xlabel("Previous Day value")
     plt.legend()
     plt.show()
 
+    # ================================#
+    # --- C = 0.0001 , LR = 0.0001 --- #
+    LR = 0.0001
+    C = 0.00001
+    W, state, error, cost = SVR_linear_sgdNoBatch(X_vals, Y_vals, e, w_0, C, LR, 600)
+    print(W)
+
+    error = format(error, ".2f")
+    cost = format(cost, ".5f")
+
+    Y_vals_pred = prediction(X_vals, W)
+
+    x_m = []
+    for i in range(25):
+        x_m.append(i)
+    x_M = np.array(x_m)
+
+    equation = x_M * W[0] + W[1]
+    plt.scatter(X_vals, Y_vals)
+    plt.title(f'TRAINING MODEL: Currency Exchange, C: {C}, LR: {LR}')
+    plt.text(15, 5, f'RSME: {error}')
+    plt.plot(x_M, equation, label="Regression", color="red")
+    plt.ylabel("Today's value")
+    plt.xlabel("Previous Day value")
+    plt.legend()
+    plt.show()
+
+    # --- C = 0.00001 , LR = 0.0001 --- #
+    LR = 0.0001
+    C = 0.000001
+    W, state, error, cost = SVR_linear_sgdNoBatch(X_vals, Y_vals, e, w_0, C, LR, 600)
+    print(W)
+
+    error = format(error, ".2f")
+    cost = format(cost, ".5f")
+
+    Y_vals_pred = prediction(X_vals, W)
+
+    x_m = []
+    for i in range(25):
+        x_m.append(i)
+    x_M = np.array(x_m)
+
+    equation = x_M * W[0] + W[1]
+    plt.scatter(X_vals, Y_vals)
+    plt.title(f'TRAINING MODEL: Currency Exchange, C: {C}, LR: {LR}')
+    plt.text(15, 5, f'RSME: {error}')
+    plt.plot(x_M, equation, label="Regression", color="red")
+    plt.ylabel("Today's value")
+    plt.xlabel("Previous Day value")
+    plt.legend()
+    plt.show()
+
+    # --- C = 0.000001 , LR = 0.0001 --- #
+    LR = 0.0001
+    C = 0.0000001
+    W, state, error, cost = SVR_linear_sgdNoBatch(X_vals, Y_vals, e, w_0, C, LR, 600)
+    print(W)
+
+    error = format(error, ".2f")
+    cost = format(cost, ".5f")
+
+    Y_vals_pred = prediction(X_vals, W)
+
+    x_m = []
+    for i in range(25):
+        x_m.append(i)
+    x_M = np.array(x_m)
+
+    equation = x_M * W[0] + W[1]
+    plt.scatter(X_vals, Y_vals)
+    plt.title(f'TRAINING MODEL: Currency Exchange, C: {C}, LR: {LR}')
+    plt.text(15, 10, f'RSME: {error}')
+    plt.plot(x_M, equation, label="Regression", color="red")
+    plt.ylabel("Today's value")
+    plt.xlabel("Previous Day value")
+    plt.legend()
+    plt.show()
+
+    # ================================#
     # --- C = 0.0001 , LR = 0.00001 --- #
     LR = 0.00001
     C = 0.0001
@@ -559,63 +720,7 @@ if __name__ == '__main__':
     equation = x_M * W[0] + W[1]
     plt.scatter(X_vals, Y_vals)
     plt.title(f'TRAINING MODEL: Currency Exchange, C: {C}, LR: {LR}')
-    plt.text(16, 15, f'RSME: {error}')
-    plt.text(16, 13, f'Cost: {cost}')
-    plt.plot(x_M, equation, label="Regression", color="red")
-    plt.ylabel("Today's value")
-    plt.xlabel("Previous Day value")
-    plt.legend()
-    plt.show()
-
-    # ================================#
-    # --- C = 0.00001 , LR = 0.01 --- #
-    LR = 0.01
-    C = 0.00001
-    W, state, error, cost = SVR_linear_sgdNoBatch(X_vals, Y_vals, e, w_0, C, LR, 600)
-    print(W)
-
-    error = format(error, ".2f")
-    cost = format(cost, ".5f")
-
-    Y_vals_pred = prediction(X_vals, W)
-
-    x_m = []
-    for i in range(25):
-        x_m.append(i)
-    x_M = np.array(x_m)
-
-    equation = x_M * W[0] + W[1]
-    plt.scatter(X_vals, Y_vals)
-    plt.title(f'TRAINING MODEL: Currency Exchange, C: {C}, LR: {LR}')
-    plt.text(15, 5, f'RSME: {error}')
-    plt.text(15, 3, f'Cost: {cost}')
-    plt.plot(x_M, equation, label="Regression", color="red")
-    plt.ylabel("Today's value")
-    plt.xlabel("Previous Day value")
-    plt.legend()
-    plt.show()
-
-    # --- C = 0.00001 , LR = 0.001 --- #
-    LR = 0.001
-    C = 0.00001
-    W, state, error, cost = SVR_linear_sgdNoBatch(X_vals, Y_vals, e, w_0, C, LR, 600)
-    print(W)
-
-    error = format(error, ".2f")
-    cost = format(cost, ".5f")
-
-    Y_vals_pred = prediction(X_vals, W)
-
-    x_m = []
-    for i in range(25):
-        x_m.append(i)
-    x_M = np.array(x_m)
-
-    equation = x_M * W[0] + W[1]
-    plt.scatter(X_vals, Y_vals)
-    plt.title(f'TRAINING MODEL: Currency Exchange, C: {C}, LR: {LR}')
-    plt.text(15, 5, f'RSME: {error}')
-    plt.text(15, 3, f'Cost: {cost}')
+    plt.text(16, 12.5, f'RSME: {error}')
     plt.plot(x_M, equation, label="Regression", color="red")
     plt.ylabel("Today's value")
     plt.xlabel("Previous Day value")
@@ -623,33 +728,6 @@ if __name__ == '__main__':
     plt.show()
 
     # --- C = 0.00001 , LR = 0.0001 --- #
-    LR = 0.0001
-    C = 0.00001
-    W, state, error, cost = SVR_linear_sgdNoBatch(X_vals, Y_vals, e, w_0, C, LR, 600)
-    print(W)
-
-    error = format(error, ".2f")
-    cost = format(cost, ".5f")
-
-    Y_vals_pred = prediction(X_vals, W)
-
-    x_m = []
-    for i in range(25):
-        x_m.append(i)
-    x_M = np.array(x_m)
-
-    equation = x_M * W[0] + W[1]
-    plt.scatter(X_vals, Y_vals)
-    plt.title(f'TRAINING MODEL: Currency Exchange, C: {C}, LR: {LR}')
-    plt.text(15, 10, f'RSME: {error}')
-    plt.text(15, 8, f'Cost: {cost}')
-    plt.plot(x_M, equation, label="Regression", color="red")
-    plt.ylabel("Today's value")
-    plt.xlabel("Previous Day value")
-    plt.legend()
-    plt.show()
-
-    # --- C = 0.00001 , LR = 0.00001 --- #
     LR = 0.00001
     C = 0.00001
     W, state, error, cost = SVR_linear_sgdNoBatch(X_vals, Y_vals, e, w_0, C, LR, 600)
@@ -669,62 +747,6 @@ if __name__ == '__main__':
     plt.scatter(X_vals, Y_vals)
     plt.title(f'TRAINING MODEL: Currency Exchange, C: {C}, LR: {LR}')
     plt.text(15, 10, f'RSME: {error}')
-    plt.text(15, 8, f'Cost: {cost}')
-    plt.plot(x_M, equation, label="Regression", color="red")
-    plt.ylabel("Today's value")
-    plt.xlabel("Previous Day value")
-    plt.legend()
-    plt.show()
-
-    # ================================#
-    # --- C = 0.000001 , LR = 0.01 --- #
-    LR = 0.01
-    C = 0.000001
-    W, state, error, cost = SVR_linear_sgdNoBatch(X_vals, Y_vals, e, w_0, C, LR, 600)
-    print(W)
-
-    error = format(error, ".2f")
-    cost = format(cost, ".5f")
-
-    Y_vals_pred = prediction(X_vals, W)
-
-    x_m = []
-    for i in range(25):
-        x_m.append(i)
-    x_M = np.array(x_m)
-
-    equation = x_M * W[0] + W[1]
-    plt.scatter(X_vals, Y_vals)
-    plt.title(f'TRAINING MODEL: Currency Exchange, C: {C}, LR: {LR}')
-    plt.text(15, 5, f'RSME: {error}')
-    plt.text(15, 3, f'Cost: {cost}')
-    plt.plot(x_M, equation, label="Regression", color="red")
-    plt.ylabel("Today's value")
-    plt.xlabel("Previous Day value")
-    plt.legend()
-    plt.show()
-
-    # --- C = 0.000001 , LR = 0.001 --- #
-    LR = 0.001
-    C = 0.000001
-    W, state, error, cost = SVR_linear_sgdNoBatch(X_vals, Y_vals, e, w_0, C, LR, 600)
-    print(W)
-
-    error = format(error, ".2f")
-    cost = format(cost, ".5f")
-
-    Y_vals_pred = prediction(X_vals, W)
-
-    x_m = []
-    for i in range(25):
-        x_m.append(i)
-    x_M = np.array(x_m)
-
-    equation = x_M * W[0] + W[1]
-    plt.scatter(X_vals, Y_vals)
-    plt.title(f'TRAINING MODEL: Currency Exchange, C: {C}, LR: {LR}')
-    plt.text(15, 5, f'RSME: {error}')
-    plt.text(15, 3, f'Cost: {cost}')
     plt.plot(x_M, equation, label="Regression", color="red")
     plt.ylabel("Today's value")
     plt.xlabel("Previous Day value")
@@ -732,33 +754,6 @@ if __name__ == '__main__':
     plt.show()
 
     # --- C = 0.000001 , LR = 0.0001 --- #
-    LR = 0.0001
-    C = 0.000001
-    W, state, error, cost = SVR_linear_sgdNoBatch(X_vals, Y_vals, e, w_0, C, LR, 600)
-    print(W)
-
-    error = format(error, ".2f")
-    cost = format(cost, ".5f")
-
-    Y_vals_pred = prediction(X_vals, W)
-
-    x_m = []
-    for i in range(25):
-        x_m.append(i)
-    x_M = np.array(x_m)
-
-    equation = x_M * W[0] + W[1]
-    plt.scatter(X_vals, Y_vals)
-    plt.title(f'TRAINING MODEL: Currency Exchange, C: {C}, LR: {LR}')
-    plt.text(15, 10, f'RSME: {error}')
-    plt.text(15, 8, f'Cost: {cost}')
-    plt.plot(x_M, equation, label="Regression", color="red")
-    plt.ylabel("Today's value")
-    plt.xlabel("Previous Day value")
-    plt.legend()
-    plt.show()
-
-    # --- C = 0.000001 , LR = 0.00001 --- #
     LR = 0.00001
     C = 0.000001
     W, state, error, cost = SVR_linear_sgdNoBatch(X_vals, Y_vals, e, w_0, C, LR, 600)
@@ -777,8 +772,86 @@ if __name__ == '__main__':
     equation = x_M * W[0] + W[1]
     plt.scatter(X_vals, Y_vals)
     plt.title(f'TRAINING MODEL: Currency Exchange, C: {C}, LR: {LR}')
-    plt.text(15, 100, f'RSME: {error}')
-    plt.text(15, 80, f'Cost: {cost}')
+    plt.text(15, 50, f'RSME: {error}')
+    plt.plot(x_M, equation, label="Regression", color="red")
+    plt.ylabel("Today's value")
+    plt.xlabel("Previous Day value")
+    plt.legend()
+    plt.show()
+
+    # ================================#
+    # --- C = 0.0001 , LR = 0.000001 --- #
+    LR = 0.000001
+    C = 0.001
+    W, state, error, cost = SVR_linear_sgdNoBatch(X_vals, Y_vals, e, w_0, C, LR, 600)
+    print(W)
+
+    error = format(error, ".2f")
+    cost = format(cost, ".5f")
+
+    Y_vals_pred = prediction(X_vals, W)
+
+    x_m = []
+    for i in range(25):
+        x_m.append(i)
+    x_M = np.array(x_m)
+
+    equation = x_M * W[0] + W[1]
+    plt.scatter(X_vals, Y_vals)
+    plt.title(f'TRAINING MODEL: Currency Exchange, C: {C}, LR: {LR}')
+    plt.text(15, -10, f'Cost: {cost}')
+    plt.plot(x_M, equation, label="Regression", color="red")
+    plt.ylabel("Today's value")
+    plt.xlabel("Previous Day value")
+    plt.legend()
+    plt.show()
+
+    # --- C = 0.00001 , LR = 0.0001 --- #
+    LR = 0.000001
+    C = 0.0001
+    W, state, error, cost = SVR_linear_sgdNoBatch(X_vals, Y_vals, e, w_0, C, LR, 600)
+    print(W)
+
+    error = format(error, ".2f")
+    cost = format(cost, ".5f")
+
+    Y_vals_pred = prediction(X_vals, W)
+
+    x_m = []
+    for i in range(25):
+        x_m.append(i)
+    x_M = np.array(x_m)
+
+    equation = x_M * W[0] + W[1]
+    plt.scatter(X_vals, Y_vals)
+    plt.title(f'TRAINING MODEL: Currency Exchange, C: {C}, LR: {LR}')
+    plt.text(15, 6, f'RSME: {error}')
+    plt.plot(x_M, equation, label="Regression", color="red")
+    plt.ylabel("Today's value")
+    plt.xlabel("Previous Day value")
+    plt.legend()
+    plt.show()
+
+    # --- C = 0.000001 , LR = 0.0001 --- #
+    LR = 0.000001
+    C = 0.00001
+    W, state, error, cost = SVR_linear_sgdNoBatch(X_vals, Y_vals, e, w_0, C, LR, 600)
+    print(W)
+
+    error = format(error, ".2f")
+    cost = format(cost, ".5f")
+
+    Y_vals_pred = prediction(X_vals, W)
+
+    x_m = []
+    for i in range(25):
+        x_m.append(i)
+    x_M = np.array(x_m)
+
+    equation = x_M * W[0] + W[1]
+    plt.scatter(X_vals, Y_vals)
+    plt.title(f'TRAINING MODEL: Currency Exchange, C: {C}, LR: {LR}')
+    plt.text(15, 200, f'RSME: {error}')
     plt.plot(x_M, equation, label="Regression", color="red")
     plt.ylabel("Today's value")
     plt.xlabel("Previous Day value")
