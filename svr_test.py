@@ -357,7 +357,7 @@ if __name__ == '__main__':
     Y_vals = np.array(Y)
 
     # ---- Checking the ideal value of C and the Learning Rate ---- #
-    '''e = 0.00001
+    e = 0.00001
     w_ = [80, 100]
     w_0 = np.array(w_)
     LR = 0.1
@@ -536,10 +536,10 @@ if __name__ == '__main__':
     plt.xticks(x_axis, C_vals_array)
     plt.xlabel("C Value")
     plt.ylabel("RSME Size")
-    plt.show()'''
+    plt.show()
 
     # ---- Valuating the range of C and LR---- #
-    '''e = 0.00001
+    e = 0.00001
     w_ = [80, 100]
     w_0 = np.array(w_)
 
@@ -856,10 +856,10 @@ if __name__ == '__main__':
     plt.ylabel("Today's value")
     plt.xlabel("Previous Day value")
     plt.legend()
-    plt.show()'''
+    plt.show()
 
     # there were our best
-    '''C = 0.00001
+    C = 0.00001
     max_L = 0.0001  # under estimate
     min_L = 0.00001  # over estimate
 
@@ -931,13 +931,13 @@ if __name__ == '__main__':
     plt.ylabel("Today's value")
     plt.xlabel("Previous Day value")
     plt.legend()
-    plt.show()'''
+    plt.show()
 
     X_v = currency[['Average']]
     pred_vals = X_v[324:]
     pred_vals = np.array(pred_vals)
 
-    '''C = 0.00001
+    C = 0.00001
     LR = 0.0000110
     W, state, error, cost = SVR_linear_sgdNoBatch(X_vals, Y_vals, e, w_0, C, LR, 600)
 
@@ -975,10 +975,10 @@ if __name__ == '__main__':
     plt.ylabel("Pesos per Dollar")
     plt.xlabel("Months")
     plt.legend()
-    plt.show()'''
+    plt.show()
 
 # ---- try different values of epsilon---- #
-    '''C = 0.000001
+    C = 0.000001
     LR = 0.0000220
     e = 0.1
     W, state, error, cost = SVR_linear_sgdNoBatch(X_vals, Y_vals, e, w_0, C, LR, 600)
@@ -1066,7 +1066,7 @@ if __name__ == '__main__':
     plt.ylabel("Pesos per Dollar")
     plt.xlabel("Months")
     plt.legend()
-    plt.show()'''
+    plt.show()
 
 # ----- final ----- #
 
